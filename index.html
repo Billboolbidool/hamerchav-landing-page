@@ -238,9 +238,27 @@
     border-radius: 6px;
     padding: 28px 18px 20px;
     max-width: 342px;
+    width: 100%;
+    box-sizing: border-box;
     margin: 0 auto;
     box-shadow: 0 24px 60px -24px rgba(10,11,46,.45);
+    overflow: hidden;
   }
+  /* the form builder's embed script sets a hardcoded inline width/height
+     (e.g. style="width: 342px; height: 578px") on the .fc-form div itself,
+     sized for its own preview canvas — wider than the space left once our
+     card's own padding is subtracted, which is what pushed fields past the
+     card edge on narrow screens. !important here overrides that inline
+     style (inline alone would otherwise win over a plain selector). */
+  .merchav-form-card .fc-form {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .merchav-form-card .fc-form *,
+  .merchav-form-card .fc-form { max-width: 100% !important; box-sizing: border-box !important; }
   .merchav-form-card .fc-form,
   .merchav-form-card .fc-form * { font-family: 'Assistant', sans-serif !important; }
   .merchav-form-card .fc-form h1,
