@@ -236,7 +236,7 @@
     border: 1px solid #E7E1D4;
     border-top: 3px solid #60E0E2;
     border-radius: 6px;
-    padding: 28px 18px 20px;
+    padding: 32px 22px 26px;
     max-width: 342px;
     width: 100%;
     box-sizing: border-box;
@@ -261,6 +261,18 @@
   .merchav-form-card .fc-form { max-width: 100% !important; box-sizing: border-box !important; }
   .merchav-form-card .fc-form,
   .merchav-form-card .fc-form * { font-family: 'Assistant', sans-serif !important; }
+  /* the embed's own theme wraps every row (including the consent checkbox)
+     in elements with a dark fill by default; since we also force every
+     label to our dark navy ink for the field-name labels, that combination
+     made the consent row read as dark-on-dark. Stripping background on
+     every wrapper except the controls we explicitly style below lets our
+     card's cream fill show through everywhere, so the forced navy label
+     text stays readable no matter which row it's on. */
+  .merchav-form-card .fc-form div,
+  .merchav-form-card .fc-form span,
+  .merchav-form-card .fc-form p,
+  .merchav-form-card .fc-form section,
+  .merchav-form-card .fc-form label { background-color: transparent !important; }
   .merchav-form-card .fc-form h1,
   .merchav-form-card .fc-form h2,
   .merchav-form-card .fc-form h3,
@@ -275,10 +287,27 @@
     border-radius: 7px !important;
     padding: 10px 14px !important;
     width: 100% !important;
+    margin-bottom: 14px !important;
   }
   .merchav-form-card .fc-form input:not([type="submit"]):not([type="button"]):focus,
   .merchav-form-card .fc-form textarea:focus,
   .merchav-form-card .fc-form select:focus { border-color: #0A0B2E !important; outline: none !important; }
+  /* consent checkbox itself: keep it small and on the same baseline as its
+     label instead of the widget's default (often oversized / block-level) */
+  .merchav-form-card .fc-form input[type="checkbox"] {
+    width: auto !important;
+    height: auto !important;
+    accent-color: #0A0B2E !important;
+    margin-bottom: 0 !important;
+    vertical-align: middle !important;
+  }
+  .merchav-form-card .fc-form label:has(input[type="checkbox"]),
+  .merchav-form-card .fc-form input[type="checkbox"] + label,
+  .merchav-form-card .fc-form input[type="checkbox"] ~ label {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #4a4f6e !important;
+  }
   .merchav-form-card .fc-form button,
   .merchav-form-card .fc-form input[type="submit"],
   .merchav-form-card .fc-form input[type="button"],
@@ -289,12 +318,18 @@
     font-weight: 600 !important;
     border-radius: 7px !important;
     border: 1px solid #0A0B2E !important;
-    padding: 14px 28px !important;
-    transition: background-color 200ms ease-out !important;
+    padding: 15px 28px !important;
+    margin-top: 8px !important;
+    transition: background-color 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out !important;
+    box-shadow: 0 12px 26px -10px rgba(96,224,226,.45), 0 16px 32px -12px rgba(10,11,46,.55) !important;
     cursor: pointer !important;
   }
   .merchav-form-card .fc-form button:hover,
-  .merchav-form-card .fc-form input[type="submit"]:hover { background-color: #23244a !important; }
+  .merchav-form-card .fc-form input[type="submit"]:hover {
+    background-color: #23244a !important;
+    box-shadow: 0 16px 32px -8px rgba(96,224,226,.6), 0 20px 40px -12px rgba(10,11,46,.6) !important;
+    transform: translateY(-1px);
+  }
 </style>
 </head>
 <body class="antialiased">
