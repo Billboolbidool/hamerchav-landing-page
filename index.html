@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>המרחב, המקום שבו בעלות עסקים בונות עסקים שהן רוצות לחיות בתוכם</title>
+<meta name="description" content="מערכת הפעלה וסביבת עבודה לבעלות עסקים. לא עוד קורס, לא עוד קהילה, סביבת עשייה שבה בונים את העסק יחד, צעד אחר צעד.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Assistant:wght@300;400;600;700&family=Caveat:wght@400..700&family=Heebo:wght@300;400;700;900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0A0B2E',
+          page: '#EEEAE0',
+          card: '#FBFAF6',
+          hairline: '#E7E1D4',
+          'hero-from': '#4B5680',
+          'hero-to': '#262C4A',
+          spectrum: {
+            purple: '#7457FD',
+            pink: '#FF5B97',
+            orange: '#FFA158',
+            mint: '#60E0E2',
+          },
+        },
+        fontFamily: {
+          heebo: ['Heebo', 'sans-serif'],
+          assistant: ['Assistant', 'sans-serif'],
+          space: ['Space Grotesk', 'sans-serif'],
+          'hand-en': ['Caveat', 'cursive'],
+          'hand-he': ['Amatic SC', 'cursive'],
+        },
+        borderRadius: {
+          card: '6px',
+          btn: '7px',
+        },
+        backgroundImage: {
+          hero: 'radial-gradient(120% 120% at 50% 20%, #4B5680 0%, #262C4A 100%)',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  body { font-family: 'Assistant', sans-serif; background-color: #EEEAE0; color: #0A0B2E; line-height: 1.65; }
+  h1, h2, h3, h4, .heebo { font-family: 'Heebo', sans-serif; }
+  .space { font-family: 'Space Grotesk', sans-serif; }
+  .hand-he { font-family: 'Amatic SC', cursive; }
+  .hand-en { font-family: 'Caveat', cursive; }
+
+  .btn-primary {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: #0A0B2E;
+    color: #FBFAF6;
+    font-weight: 600;
+    border-radius: 7px;
+    padding: 16px 32px;
+    display: inline-block;
+    transition: background-color 200ms ease-out, transform 200ms ease-out;
+    border: 1px solid #0A0B2E;
+  }
+  .btn-primary:hover { background-color: #23244a; }
+
+  .btn-light {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: #FBFAF6;
+    color: #0A0B2E;
+    font-weight: 600;
+    border-radius: 7px;
+    padding: 16px 32px;
+    display: inline-block;
+    transition: background-color 200ms ease-out;
+    border: 1px solid #FBFAF6;
+  }
+  .btn-light:hover { background-color: #ffffff; }
+
+  .btn-outline {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: transparent;
+    color: #0A0B2E;
+    font-weight: 600;
+    border-radius: 7px;
+    padding: 15px 31px;
+    display: inline-block;
+    border: 1px solid #0A0B2E;
+    transition: background-color 200ms ease-out;
+  }
+  .btn-outline:hover { background-color: #FBFAF6; }
+
+  .card { background-color: #FBFAF6; border: 1px solid #E7E1D4; border-radius: 6px; }
+
+  /* colour accents — a touch of the spectrum's joy on card tops + icon circles,
+     used consistently (not randomly) so it reads as a system, not decoration */
+  .card-accent { border-top-width: 3px; border-top-style: solid; }
+  .icon-dot { width: 44px; height: 44px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; }
+
+  /* Portal — the arch as a reusable picture frame, per the brand's own
+     "Portal" concept (BRAND IDENTITY EXPLORATION BRIEF: entering a new
+     mindset / transition / threshold). Gradient-bordered arch, spectrum
+     colour veil over every photo. */
+  .portal { display: inline-block; padding: 3px 3px 0; border-radius: 9999px 9999px 0 0;
+    background: linear-gradient(170deg, #7457FD 0%, #FF5B97 45%, #FFA158 75%, #60E0E2 100%); }
+  .portal .p-inner { border-radius: 9999px 9999px 0 0; overflow: hidden; position: relative; background: #EEEAE0; }
+  .portal img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .portal .veil { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light;
+    background: linear-gradient(135deg, rgba(116,87,253,.35) 0%, rgba(255,91,151,.28) 45%, rgba(255,161,88,.16) 75%, rgba(96,224,226,.24) 100%); }
+  .portal.size-xl .p-inner { width: 340px; height: 440px; }
+  .portal.size-lg .p-inner { width: 280px; height: 360px; }
+  .portal.size-sm .p-inner { width: 128px; height: 164px; }
+  @media (max-width: 480px) {
+    .portal.size-xl .p-inner, .portal.size-lg .p-inner { width: 240px; height: 300px; }
+  }
+
+  /* Portal-circle — deliberate exception to the arch motif: a loop/cycle
+     diagram needs true circular nodes. Same gradient-border + veil
+     mechanism as .portal, radius swapped to 50%. */
+  .portal-circle { display: inline-block; padding: 3px; border-radius: 9999px;
+    background: linear-gradient(170deg, #7457FD 0%, #FF5B97 45%, #FFA158 75%, #60E0E2 100%); }
+  .portal-circle .p-inner { border-radius: 9999px; overflow: hidden; position: relative; background: #EEEAE0; width: 68px; height: 68px; }
+  .portal-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .portal-circle .veil { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light;
+    background: linear-gradient(135deg, rgba(116,87,253,.35) 0%, rgba(255,91,151,.28) 45%, rgba(255,161,88,.16) 75%, rgba(96,224,226,.24) 100%); }
+  @media (min-width: 768px) {
+    .portal-circle .p-inner { width: 112px; height: 112px; }
+  }
+
+  /* flow-row — MOBILE-FIRST: these are the base (phone) sizes, sized to
+     fit inside a real ~360px phone with zero horizontal scrolling (3
+     stations + 2 connectors ≈ 300px, comfortably under a ~312px content
+     area after page padding). Desktop gets bigger fixed sizes via
+     min-width:768px (this file's existing `md:` breakpoint), not the
+     other way around — starting from desktop sizes and shrinking them
+     for phones is what produced an overflowing, scroll-cut-off diagram
+     last time.
+     The 3 stations are an ordinary flex row: circle then caption stacked
+     in NORMAL FLOW inside each station, so the browser guarantees they
+     can never overlap (no hand-computed absolute coordinates for
+     nodes/captions at all, unlike the two earlier attempts at this
+     component). overflow-x:auto on the wrapper is only a last-resort
+     safety net for the very smallest/oldest phones; it should not be
+     needed on any mainstream device. */
+  .flow-row-wrap { overflow-x: auto; }
+  .flow-row { display: flex; align-items: flex-start; justify-content: center; width: max-content; margin: 0 auto; }
+  .flow-station { display: flex; flex-direction: column; align-items: center; width: 80px; text-align: center; flex-shrink: 0; }
+  .flow-station .portal-circle { margin-bottom: 10px; }
+  .flow-connector { width: 30px; height: 68px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .flow-connector svg { width: 100%; height: 30px; }
+  .flow-arrow { fill: none; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 6 8; animation: flow-dash 2.6s linear infinite; }
+  @keyframes flow-dash { to { stroke-dashoffset: -28; } }
+
+  @media (min-width: 768px) {
+    .flow-station { width: 150px; }
+    .flow-station .portal-circle { margin-bottom: 14px; }
+    .flow-connector { width: 84px; height: 112px; }
+    .flow-connector svg { height: 56px; }
+    .flow-arrow { stroke-width: 2.5; stroke-dasharray: 7 9; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow-arrow { animation: none; }
+  }
+
+  .eyebrow { font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: 0.14em; }
+
+  .reveal { opacity: 0; transform: translateY(10px); transition: opacity 600ms ease-out, transform 600ms ease-out; }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  .reveal-hero { opacity: 0; filter: blur(6px); transform: translateY(14px); transition: opacity 900ms ease-out, filter 900ms ease-out, transform 900ms ease-out; }
+  .reveal-hero.is-visible { opacity: 1; filter: blur(0); transform: translateY(0); }
+
+  /* arch-seam — a shallow spectrum arc marking the threshold between
+     sections, echoing the brand's own portal/arch motif. The blurred
+     shadow path sits just under the line, so the arc reads as gently
+     lifted off the page rather than printed flat on it. */
+  .arch-seam { position: relative; height: 60px; margin: -6px 0; overflow: hidden; pointer-events: none; }
+  .arch-seam-glow { position: absolute; left: 50%; top: -8px; transform: translateX(-50%); width: 420px; height: 90px; border-radius: 9999px; filter: blur(46px); opacity: .13; background: conic-gradient(from 180deg, #7457FD, #FF5B97, #FFA158, #60E0E2); }
+  .arch-seam svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .arch-seam .arch-shadow { fill: none; stroke: #0A0B2E; stroke-width: 5; opacity: .06; filter: blur(3px); }
+  .arch-seam .arch-line { fill: none; stroke: url(#archSeamGrad); stroke-width: 1.4; stroke-linecap: round; opacity: .5; }
+
+  /* logo-marquee — running trust bar of client/partner logos.
+     JS (see bottom script) measures the real rendered width of one logo
+     "set" after every image has loaded, clones it as many times as needed
+     to cover the viewport, and drives the scroll itself with
+     requestAnimationFrame + modulo wraparound. That means the loop point
+     is always derived from an actual measured pixel width, never a
+     precomputed CSS percentage — so it can't drift out of sync with what's
+     really on screen, regardless of image load timing or screen width.
+     No JS / reduced motion: falls back to a plain static wrapped row.
+
+     direction:ltr here is load-bearing, not cosmetic: the page is RTL
+     (html dir="rtl"), and per the CSS2.1 over-constrained-box rules, a
+     block child narrower than its container anchors to the *containing
+     block's* direction — not its own — when margins aren't auto. Without
+     this, the track silently right-anchors inside .logo-marquee instead
+     of left-anchoring, leaving uncovered space that's invisible at
+     offset≈0 (right after load) but grows every frame as the scroll
+     progresses. That's what produced the "empty after a while" bug. */
+  .logo-marquee { direction: ltr; overflow: hidden; width: 100%;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); }
+  .logo-marquee-track { display: flex; align-items: center; width: max-content; will-change: transform; }
+  .logo-marquee-set { display: flex; align-items: center; flex: none; }
+  .logo-marquee-item { flex: none; height: 46px; display: flex; align-items: center; margin-inline-end: 56px; }
+  .logo-marquee-item img { height: 100%; width: auto; max-width: 140px; object-fit: contain; filter: grayscale(1); opacity: .5; transition: opacity 250ms ease-out, filter 250ms ease-out, transform 250ms ease-out; }
+  .logo-marquee-item img:hover { filter: grayscale(0); opacity: 1; }
+  .logo-marquee-item.active img { filter: grayscale(0); opacity: 1; transform: scale(1.15); }
+  @media (max-width: 640px) {
+    .logo-marquee-item { height: 34px; margin-inline-end: 36px; }
+    .logo-marquee-item img { max-width: 104px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-marquee-track { flex-wrap: wrap; justify-content: center; width: 100%; gap: 20px; }
+    .logo-marquee-item { margin-inline-end: 0; }
+    .logo-marquee { mask-image: none; -webkit-mask-image: none; }
+  }
+
+  /* sendmsg / creaditor form embed — reskinned to read as part of the
+     page rather than a foreign widget. The card chrome around it is our
+     own DOM so it's guaranteed to render; the rules targeting .fc-form's
+     own contents are best-effort, since that markup is generated by an
+     externally-loaded script (fc-basics.min.js) we don't control and
+     can't inspect ahead of time. If the widget renders into an iframe
+     rather than plain DOM, these rules can't reach inside it at all —
+     in that case the look has to be set from the שלח מסר form builder
+     itself, not from this page's CSS. */
+  .merchav-form-card {
+    background-color: #FBFAF6;
+    border: 1px solid #E7E1D4;
+    border-top: 3px solid #60E0E2;
+    border-radius: 6px;
+    padding: 28px 18px 20px;
+    max-width: 342px;
+    margin: 0 auto;
+    box-shadow: 0 24px 60px -24px rgba(10,11,46,.45);
+  }
+  .merchav-form-card .fc-form,
+  .merchav-form-card .fc-form * { font-family: 'Assistant', sans-serif !important; }
+  .merchav-form-card .fc-form h1,
+  .merchav-form-card .fc-form h2,
+  .merchav-form-card .fc-form h3,
+  .merchav-form-card .fc-form label { font-family: 'Heebo', sans-serif !important; color: #0A0B2E !important; }
+  .merchav-form-card .fc-form input:not([type="submit"]):not([type="button"]),
+  .merchav-form-card .fc-form textarea,
+  .merchav-form-card .fc-form select {
+    font-family: 'Assistant', sans-serif !important;
+    background-color: #ffffff !important;
+    color: #0A0B2E !important;
+    border: 1px solid #E7E1D4 !important;
+    border-radius: 7px !important;
+    padding: 10px 14px !important;
+    width: 100% !important;
+  }
+  .merchav-form-card .fc-form input:not([type="submit"]):not([type="button"]):focus,
+  .merchav-form-card .fc-form textarea:focus,
+  .merchav-form-card .fc-form select:focus { border-color: #0A0B2E !important; outline: none !important; }
+  .merchav-form-card .fc-form button,
+  .merchav-form-card .fc-form input[type="submit"],
+  .merchav-form-card .fc-form input[type="button"],
+  .merchav-form-card .fc-form .fc-submit {
+    font-family: 'Space Grotesk', sans-serif !important;
+    background-color: #0A0B2E !important;
+    color: #FBFAF6 !important;
+    font-weight: 600 !important;
+    border-radius: 7px !important;
+    border: 1px solid #0A0B2E !important;
+    padding: 14px 28px !important;
+    transition: background-color 200ms ease-out !important;
+    cursor: pointer !important;
+  }
+  .merchav-form-card .fc-form button:hover,
+  .merchav-form-card .fc-form input[type="submit"]:hover { background-color: #23244a !important; }
+</style>
+</head>
+<body class="antialiased">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="archSeamGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7457FD"/>
+      <stop offset="35%" stop-color="#FF5B97"/>
+      <stop offset="68%" stop-color="#FFA158"/>
+      <stop offset="100%" stop-color="#60E0E2"/>
+    </linearGradient>
+    <linearGradient id="spectrumBright" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9C7BFF"/>
+      <stop offset="32%" stop-color="#FF6FB6"/>
+      <stop offset="64%" stop-color="#FFC76B"/>
+      <stop offset="100%" stop-color="#7DF0F0"/>
+    </linearGradient>
+    <linearGradient id="arrowGrad12" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7457FD"/><stop offset="100%" stop-color="#FF5B97"/>
+    </linearGradient>
+    <linearGradient id="arrowGrad23" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#FF5B97"/><stop offset="100%" stop-color="#FFA158"/>
+    </linearGradient>
+    <linearGradient id="arrowGrad31" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFA158"/><stop offset="100%" stop-color="#7457FD"/>
+    </linearGradient>
+    <marker id="arrowHeadPink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="14" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1,1 L9,5 L1,9 Q3,5 1,1 Z" fill="#FF5B97"/>
+    </marker>
+    <marker id="arrowHeadOrange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="14" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1,1 L9,5 L1,9 Q3,5 1,1 Z" fill="#FFA158"/>
+    </marker>
+    <marker id="arrowHeadPurple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="14" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1,1 L9,5 L1,9 Q3,5 1,1 Z" fill="#7457FD"/>
+    </marker>
+  </defs>
+</svg>
+
+<!-- ============ 1. HERO ============ -->
+<header class="relative overflow-hidden bg-hero text-card" style="min-height: clamp(580px, 84vh, 860px);">
+  <!-- video background — the brand's own "portal" moment: light passing through -->
+  <div class="absolute inset-0 z-0 overflow-hidden">
+    <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline poster="assets/hero-poster.jpg" aria-hidden="true">
+      <source src="assets/hero-video.mp4" type="video/mp4">
+    </video>
+    <div class="absolute inset-0" style="background:
+      linear-gradient(to bottom, #262C4A 0%, transparent 18%),
+      linear-gradient(to top, #262C4A 0%, transparent 14%),
+      linear-gradient(to left, #262C4A 0%, rgba(38,44,74,.75) 38%, rgba(38,44,74,.1) 68%, transparent 100%);"></div>
+  </div>
+
+  <!-- spectrum edge glow — single anchored moment, not centered -->
+  <div class="pointer-events-none absolute -bottom-40 -left-40 w-[520px] h-[520px] rounded-full blur-[110px] opacity-[0.16] z-[1]"
+       style="background: conic-gradient(from 90deg, #7457FD, #FF5B97, transparent 70%);"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6 flex" style="min-height: clamp(580px, 84vh, 860px);">
+    <div class="max-w-lg self-center py-24">
+      <div class="flex items-baseline heebo font-bold text-[2.5rem] md:text-[3rem] leading-none mb-3 reveal-hero" style="color:#FBFAF6;" id="hero-logo" aria-label="המרחב">
+        <span>המר</span>
+        <svg viewBox="4 0 144 100" class="mx-[3px]" style="height:0.61em; width:auto; overflow:visible;" aria-hidden="true"><path d="M14,100 L14,56 C14,-14 138,-14 138,56 L138,100" fill="none" stroke="url(#spectrumBright)" stroke-width="11" stroke-linecap="butt" stroke-linejoin="round"/></svg>
+        <span>ב</span>
+      </div>
+
+      <p class="font-assistant font-medium mb-10 reveal-hero" style="font-size:0.9rem; letter-spacing:0.5px; color:rgba(251,250,246,.6); transition-delay:60ms">
+        הופכות חזון לעסק יציב בעולם משתנה
+      </p>
+
+      <p class="eyebrow text-xs md:text-sm text-card/70 mb-6 reveal-hero" style="transition-delay:120ms">
+        הזמנה לקבוצת המייסדות: FOUNDING TRIBE
+      </p>
+
+      <h1 class="heebo text-4xl md:text-6xl font-bold leading-[1.15] mb-6 reveal-hero" style="transition-delay:200ms">
+        יש לך חזון וידע-<br>בואי לבנות את העסק שלך צעד אחר צעד
+      </h1>
+
+      <p class="text-lg md:text-xl text-card/80 font-light mb-10 reveal-hero" style="transition-delay:320ms">
+        סביבת עבודה לבעלות עסקים שרוצות להפוך את הידע, הניסיון והרעיונות שלהן לעסק מצליח ויציב, בליווי צמוד של נשות מקצוע מנוסות לאורך הדרך.
+      </p>
+
+      <div class="reveal-hero" style="transition-delay:420ms">
+        <a href="#apply" class="btn-light">אני רוצה שיחת היכרות</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 2. PAIN RECOGNITION (poetic) ============ -->
+<section class="py-14 md:py-20">
+  <div class="max-w-2xl mx-auto px-6 text-center reveal">
+    <h2 class="heebo text-2xl md:text-3xl font-bold mb-10">המרחב נולד בשביל נשים שרוצות לבנות עסק משמעותי.</h2>
+    <div class="space-y-3 text-lg md:text-xl text-ink/80">
+      <p>לא עוד קורס.</p>
+      <p>לא עוד תוכנית עסקית שתישאר במגירה.</p>
+      <p>לא עוד קבוצת וואטסאפ עמוסה.</p>
+      <p>ולא עוד זום שבו מקשיבים שעה וחוזרים בדיוק לאותו מקום.</p>
+    </div>
+    <p class="mt-10 text-lg text-ink/70">
+      עסק שמבוסס על מי שהן, על הערכים שלהן, ועל הדרך שבה הן באמת רוצות להתקדם.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 3. REALITY vs DREAM ============ -->
+<section class="py-12 md:py-16">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-6 reveal">
+      <div class="card card-accent p-6 md:p-7" style="border-top-color:#FFA158;">
+        <p class="eyebrow text-xs text-ink/50 mb-3">המציאות</p>
+        <p class="text-ink/85">
+          את לבד, קופצת ממשימה למשימה, מכבה שריפות, מנסה קצת שיווק, קצת תוכן, קצת מוצר. את עסוקה כל הזמן, אבל שום דבר לא באמת מתרומם. העסק שהקמת מתוך תשוקה ושליחות מתיש אותך..., את ומגיבה למה שקורה במקום לנהל אותו.
+        </p>
+      </div>
+      <div class="card card-accent p-6 md:p-7" style="border-top-color:#7457FD;">
+        <p class="eyebrow text-xs text-ink/50 mb-3">החלום</p>
+        <p class="text-ink/85">
+          את קמה בבוקר עם בהירות, יודעת בדיוק מה את עושה, לאן את רוצה להגיע ומה נכון לקדם היום. את מבצעת את המשימות שבאמת בונות את העסק, מתמחרת בביטחון ורואה את העסק שלך צומח על יסודות עמוקים, ויציבים.
+        </p>
+      </div>
+    </div>
+    <p class="mt-8 text-center text-lg text-ink/80 max-w-xl mx-auto reveal">
+      אנחנו רואות את זה קורה כל הזמן - יזמיות ובעלות מקצוע מוכשרות שעובדות קשה בלי הצלחה.
+      אבל אפשר אחרת - מה אם היית יכולה להפסיק להתיש את עצמך ולהתחיל לעבוד לפי שיטה שבאמת מאפשרת לך להתקדם.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 4. GAM VE-GAM ============ -->
+<section class="py-12 md:py-16">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="heebo text-2xl md:text-3xl font-bold text-center mb-3 reveal">עכשיו את יכולה</h2>
+    <p class="text-center text-ink/60 mb-12 reveal">סביבת עבודה שהופכת רעיונות לתוצאות</p>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card p-6 reveal">
+        <div class="icon-dot mb-4" style="background:rgba(116,87,253,.12);">
+          <svg class="w-6 h-6" style="color:#7457FD" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22L12 15L18 19L27 8"/></svg>
+        </div>
+        <p class="text-ink/85">לבנות מותג עם משמעות והשפעה, ולראות הכנסה יציבה שצומחת כל חודש.</p>
+      </div>
+      <div class="card p-6 reveal" style="transition-delay:80ms">
+        <div class="icon-dot mb-4" style="background:rgba(255,91,151,.12);">
+          <svg class="w-6 h-6" style="color:#FF5B97" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="12"/><path d="M20 12l-4 8-4-4z"/></svg>
+        </div>
+        <p class="text-ink/85">להיות אותנטית ונאמנה לעצמך, ולמכור בביטחון, בלי להתנצל.</p>
+      </div>
+      <div class="card p-6 reveal" style="transition-delay:160ms">
+        <div class="icon-dot mb-4" style="background:rgba(96,224,226,.15);">
+          <svg class="w-6 h-6" style="color:#2BAEB0" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4h6M14 4v6l-6 12a2 2 0 002 3h12a2 2 0 002-3l-6-12V4"/></svg>
+        </div>
+        <p class="text-ink/85">לבנות עסק עם חזון לטווח ארוך, ולהרגיש סיפוק והתקדמות מדי יום.</p>
+      </div>
+    </div>
+    <div class="text-center mt-12 reveal">
+      <a href="#apply" class="btn-outline">אני רוצה שיחת היכרות</a>
+    </div>
+  </div>
+</section>
+
+<div class="arch-seam" aria-hidden="true">
+  <div class="arch-seam-glow"></div>
+  <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <path class="arch-shadow" d="M0,66 Q600,6 1200,66" transform="translate(0,6)"/>
+    <path class="arch-line" d="M0,64 Q600,4 1200,64"/>
+  </svg>
+</div>
+<!-- ============ 5. FOUNDERS CREDIBILITY ============ -->
+<section class="py-12 md:py-16">
+  <div class="max-w-4xl mx-auto px-6">
+    <h2 class="heebo text-2xl md:text-3xl font-bold text-center mb-2 reveal">מי אנחנו</h2>
+    <p class="text-center text-ink/60 mb-12 reveal">המרחב חדש, אבל הניסיון שמאחוריו לא.</p>
+    <!-- Galia — portrait on the right (she's turned/gazing left), text on the left so her look leads into it -->
+    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-14 md:mb-16 reveal">
+      <div class="shrink-0">
+        <div class="portal size-lg">
+          <div class="p-inner">
+            <img src="assets/galia-portrait.jpg" alt="גליה שמרון" style="object-position: center 18%;">
+            <div class="veil"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow text-xs mb-2" style="color:#c23f83;">Galia Shimron · מיתוג, בידול וחווית לקוח</p>
+        <h3 class="heebo text-xl font-bold mb-3">גליה שמרון</h3>
+        <p class="text-ink/80 mb-2">20 שנות ניסיון בהובלת אסטרטגיית מותג וחוויית לקוח, ביותר מ-150 פרויקטים - לחברות, ארגונים, משרדי ממשלה, סטארט-אפים ועסקים מכל הגדלים - לימדו אותי לנווט עולם מלא בהזדמנויות ואיומים.</p>
+        <p class="text-ink/80 mb-4">אני לוקחת את אותם כלים, מפרקת אותם לביסים קטנים ומנגישה לך אותם - כדי שתוכלי לבנות איתם את העסק שלך.</p>
+        <p class="text-ink/80">אחד הכלים המרכזיים בארגז שלי היא מתודולוגיית החשיבה העיצובית, איתה אני עובדת כבר 12 שנה. מתודה מוכחת ועצמתית, שמתרגמת חזון מעורפל לתהליך של ניסוי, למידה ותיקון בצעדים קטנים, בהתקדמות מתמדת. המטרה שלי היא שתבני עסק שאנשים לא רק בוחרים בו, אלא מתאהבים בו, מספרים עליו, וחוזרים אליו שוב ושוב.</p>
+      </div>
+    </div>
+
+    <!-- Merav — portrait on the left (she's turned/gazing right), text on the right so her look leads into it -->
+    <div class="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 pt-14 md:pt-16 border-t border-hairline reveal" style="transition-delay:100ms">
+      <div class="shrink-0">
+        <div class="portal size-lg">
+          <div class="p-inner">
+            <img src="assets/merav-portrait.jpg" alt="מרב ניר" style="object-position: 32% center;">
+            <div class="veil"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow text-xs mb-2" style="color:#2BAEB0;">Merav Nir · שיווק, מכירות, יזמות ופיתוח עסקי</p>
+        <h3 class="heebo text-xl font-bold mb-3">מרב ניר</h3>
+        <p class="text-ink/80">שנות ליווי של בעלות עסקים דרך החסמים הפנימיים שעוצרים צמיחה: חרדת מכירות, פחד מכישלון, תסמונת המתחזה. מביאה כלים שהופכים ידע לפעולה, בלי שחיקה.</p>
+      </div>
+    </div>
+    <p class="text-center text-ink/70 mt-10 max-w-xl mx-auto reveal">
+      במקום עוד תיאוריות - סביבה וכלים לייצר מצפן אסטרטגי שעוזר לך לנווט את הדרך אל מול אתגרים וחוסר וודאות.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 5.5 LOGO CLOUD ============ -->
+<section class="py-10 md:py-14">
+  <p class="heebo text-center text-base md:text-lg font-bold text-ink/70 mb-8 md:mb-10 px-6 reveal">
+    חברות, ארגונים וגופים איתם עבדנו לאורך השנים
+  </p>
+  <div class="logo-marquee reveal" id="logoMarquee">
+    <div class="logo-marquee-track" id="logoMarqueeTrack" dir="ltr">
+      <div class="logo-marquee-set">
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 1.png" width="2000" height="2000" decoding="async" alt="Sarona Market – שוק שרונה"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALERY 2.png" width="2000" height="2000" decoding="async" alt="Peres Center for Peace and Innovation – מרכז פרס לשלום ולחדשנות"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALERY 3.png" width="2000" height="2000" decoding="async" alt="אקווריום ישראל ירושלים"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALERY 4.png" width="2000" height="2000" decoding="async" alt="rebar"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALERY 5.png" width="2000" height="2000" decoding="async" alt="Halo Monaco"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALERY 6.png" width="2000" height="2000" decoding="async" alt="dogether – The Coworking Revolution"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALERY 7.png" width="2000" height="2000" decoding="async" alt="Pomo Italiano"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALERY 8.png" width="2000" height="2000" decoding="async" alt="Yehi Tower"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/Logo GALLERY 9.png" width="2000" height="2000" decoding="async" alt=""></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 10.png" width="2000" height="2000" decoding="async" alt="Sosa"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 11.png" width="2000" height="2000" decoding="async" alt=""></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 12.png" width="2000" height="2000" decoding="async" alt=""></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 13.png" width="354" height="292" decoding="async" alt="Teperberg – יקב טפרברג"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 14.png" width="213" height="196" decoding="async" alt="Afifi Group"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 15.png" width="445" height="182" decoding="async" alt="Delta"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 16.png" width="241" height="258" decoding="async" alt="TLV Fashion Mall"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 17.png" width="297" height="301" decoding="async" alt="einstein"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="arch-seam" aria-hidden="true">
+  <div class="arch-seam-glow"></div>
+  <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <path class="arch-shadow" d="M0,66 Q600,6 1200,66" transform="translate(0,6)"/>
+    <path class="arch-line" d="M0,64 Q600,4 1200,64"/>
+  </svg>
+</div>
+<!-- ============ 6. THE SECRET STATEMENT ============ -->
+<section class="py-14 md:py-20">
+  <div class="max-w-2xl mx-auto px-6 text-center reveal">
+    <p class="heebo text-2xl md:text-4xl font-bold leading-snug">
+      הסוד הוא לא לעבוד <span class="font-heebo font-black text-spectrum-purple">קשה יותר</span>,<br>
+      אלא לעבוד לפי שיטה חכמה יותר.
+    </p>
+    <p class="mt-8 text-ink/70 max-w-lg mx-auto">
+      הבעיה היא כמעט אף פעם לא חוסר ידע. הבעיה היא שיתוק מעודף מידע, וחוסר במערכת ליישום.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 7. THE OS — ITERATIVE FLOW ============ -->
+<section class="relative overflow-hidden py-12 md:py-16">
+  <div class="pointer-events-none absolute -top-20 -right-32 w-[440px] h-[440px] rounded-full blur-[120px] opacity-[0.10]"
+       style="background: conic-gradient(from 140deg, #FFA158, #FF5B97, transparent 65%);"></div>
+  <div class="max-w-5xl mx-auto px-6 relative">
+    <p class="eyebrow text-xs text-center text-spectrum-purple mb-3 reveal">DESIGN THINKING OS</p>
+    <h2 class="heebo text-2xl md:text-3xl font-bold text-center mb-3 max-w-2xl mx-auto leading-snug reveal">
+      מערכת ההפעלה העסקית: מתיאוריה לתוצאות בשטח
+    </h2>
+    <p class="text-center text-ink/60 mb-10 reveal">צעדים קטנים. פידבק מהיר. שיפור מתמיד.</p>
+
+    <div class="flow-row-wrap reveal" style="transition-delay:40ms">
+      <div class="flow-row">
+        <div class="flow-station">
+          <div class="portal-circle"><div class="p-inner">
+            <img src="assets/mastermind.jpg" alt="חלל המאסטרמיינד" style="object-position:center 30%;">
+            <div class="veil"></div>
+          </div></div>
+          <span class="eyebrow text-xs mb-1" style="color:#7457FD;">01</span>
+          <h3 class="heebo text-sm md:text-base font-bold mb-1">מצפן אסטרטגי</h3>
+          <p class="text-[11px] md:text-xs text-ink/50 space mb-1">MASTERMIND · דו-שבועי</p>
+          <p class="text-[11px] md:text-xs text-ink/70">מחקר, גילוי ודיוק הכיוון.</p>
+        </div>
+
+        <div class="flow-connector">
+          <svg viewBox="0 0 84 56" aria-hidden="true" focusable="false">
+            <path class="flow-arrow" stroke="url(#arrowGrad12)" marker-end="url(#arrowHeadPink)" d="M78,44 Q42,6 6,44"/>
+          </svg>
+        </div>
+
+        <div class="flow-station">
+          <div class="portal-circle"><div class="p-inner">
+            <img src="assets/quiet-workspace.jpg" alt="אזור העבודה השקט" style="object-position:center 30%;">
+            <div class="veil"></div>
+          </div></div>
+          <span class="eyebrow text-xs mb-1" style="color:#FF5B97;">02</span>
+          <h3 class="heebo text-sm md:text-base font-bold mb-1">חדר כושר לביצוע</h3>
+          <p class="text-[11px] md:text-xs text-ink/50 space mb-1">SILENT COWORKING</p>
+          <p class="text-[11px] md:text-xs text-ink/70">מחויבות אישית וסביבה לעבודה עמוקה.</p>
+        </div>
+
+        <div class="flow-connector">
+          <svg viewBox="0 0 84 56" aria-hidden="true" focusable="false">
+            <path class="flow-arrow" stroke="url(#arrowGrad23)" marker-end="url(#arrowHeadOrange)" d="M78,12 Q42,50 6,12"/>
+          </svg>
+        </div>
+
+        <div class="flow-station">
+          <div class="portal-circle"><div class="p-inner">
+            <img src="assets/ideation-space.jpg" alt="מרחב הרעיונאות" style="object-position:center 30%;">
+            <div class="veil"></div>
+          </div></div>
+          <span class="eyebrow text-xs mb-1" style="color:#FFA158;">03</span>
+          <h3 class="heebo text-sm md:text-base font-bold mb-1">מעבדת ניסויים</h3>
+          <p class="text-[11px] md:text-xs text-ink/50 space mb-1">PROTOTYPING</p>
+          <p class="text-[11px] md:text-xs text-ink/70">בחינה בשטח, קבלת פידבק מקצועי ועמיתים ושיפור רציף.</p>
+        </div>
+      </div>
+    </div>
+    <p class="text-center text-[11px] text-ink/40 mt-4 reveal">חוזרים לחדד את האסטרטגיה או לתקן בשטח</p>
+  </div>
+</section>
+
+<div class="arch-seam" aria-hidden="true">
+  <div class="arch-seam-glow"></div>
+  <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <path class="arch-shadow" d="M0,66 Q600,6 1200,66" transform="translate(0,6)"/>
+    <path class="arch-line" d="M0,64 Q600,4 1200,64"/>
+  </svg>
+</div>
+<!-- ============ 8. IMAGINE — with lobby image + arch frame ============ -->
+<section class="py-12 md:py-16">
+  <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+    <div class="reveal">
+      <p class="eyebrow text-xs text-spectrum-pink mb-3">עצמי עיניים לרגע</p>
+      <h2 class="heebo text-2xl md:text-3xl font-bold mb-5 leading-snug">דמייני שאת נכנסת ל"כפר" וירטואלי</h2>
+      <p class="text-ink/70">זו לא עוד שיחת זום אפורה, וזה לא דומה לשום דבר שהכרת. הכפר שלנו הוא סביבה וירטואלית חיה ונושמת שמייצרת אינטימיות וחוויה אמיתית של שותפות. מקום שבו את יכולה להסתובב, לפגוש נשים כמוך, לעבוד בשקט או להתייעץ, ולהרגיש שאת כבר לא פועלת לבד.</p>
+    </div>
+    <div class="reveal flex justify-center md:justify-start" style="transition-delay:120ms">
+      <div class="portal size-xl">
+        <div class="p-inner">
+          <img src="assets/lobby.jpg" alt="חלל המרחב" style="object-position: center 35%;">
+          <div class="veil"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. FOUNDERS TRIBE / SCARCITY ============ -->
+<section class="relative overflow-hidden py-12 md:py-16">
+  <div class="pointer-events-none absolute -bottom-24 -left-32 w-[420px] h-[420px] rounded-full blur-[120px] opacity-[0.10]"
+       style="background: conic-gradient(from 20deg, #7457FD, #60E0E2, transparent 65%);"></div>
+  <div class="max-w-4xl mx-auto px-6 text-center reveal relative">
+    <div class="flex items-baseline justify-center heebo font-bold text-ink text-4xl mb-6 opacity-90" aria-label="המרחב">
+      <span>המר</span>
+      <svg viewBox="4 0 144 100" class="mx-[3px]" style="height:0.61em; width:auto; overflow:visible;" aria-hidden="true"><path d="M14,100 L14,56 C14,-14 138,-14 138,56 L138,100" fill="none" stroke="url(#archSeamGrad)" stroke-width="11" stroke-linecap="butt" stroke-linejoin="round"/></svg>
+      <span>ב</span>
+    </div>
+    <h2 class="heebo text-2xl md:text-3xl font-bold mb-3">שבט המייסדות</h2>
+    <p class="text-ink/70 mb-10 max-w-lg mx-auto">המרחב הוא מקום חדש שאנחנו בוראות יחד, ולכן זו הזדמנות נדירה להיכנס ראשונה, ולעצב יחד מה המרחב יהיה.</p>
+    <div class="grid md:grid-cols-3 gap-6 text-right">
+      <div class="reveal">
+        <h3 class="heebo font-bold mb-1">בעזרתך נעצב את הדרך</h3>
+        <p class="text-sm text-ink/70">המייסדות הן לא רק חברות, הן השותפות שיגדירו את הנורמות והרוח של המרחב מהיום הראשון.</p>
+      </div>
+      <div class="reveal" style="transition-delay:80ms">
+        <h3 class="heebo font-bold mb-1">גישה לפני כולן</h3>
+        <p class="text-sm text-ink/70">תנאי ההצטרפות למייסדות לא יחזרו. את נכנסת ראשונה, בתנאים שתוכלי לספר עליהם בגאווה.</p>
+      </div>
+      <div class="reveal" style="transition-delay:160ms">
+        <h3 class="heebo font-bold mb-1">קהילה שנבנית מולך</h3>
+        <p class="text-sm text-ink/70">את לא מצטרפת לקהילה מוכנה, את עוזרת לבנות אחת שתהיה בדיוק מה שתמיד רצית.</p>
+      </div>
+    </div>
+    <p class="mt-10 text-ink/60 text-sm">מספר מקומות המייסדות מוגבל במכוון, כדי שנוכל לתת תשומת לב אמיתית לכל אחת.</p>
+  </div>
+</section>
+
+<div class="arch-seam" aria-hidden="true">
+  <div class="arch-seam-glow"></div>
+  <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <path class="arch-shadow" d="M0,66 Q600,6 1200,66" transform="translate(0,6)"/>
+    <path class="arch-line" d="M0,64 Q600,4 1200,64"/>
+  </svg>
+</div>
+<!-- ============ 10. 5-STEP ROADMAP ============ -->
+<section class="py-12 md:py-16">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="heebo text-2xl md:text-3xl font-bold text-center mb-14 reveal">איך זה עובד, שלב אחר שלב</h2>
+    <div class="relative">
+      <!-- arch motif #2 — connector, flattened -->
+      <svg class="hidden md:block absolute top-6 left-0 w-full h-10 text-ink/15 pointer-events-none" viewBox="0 0 500 40" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M5 5 H495" stroke-dasharray="1 10" stroke-linecap="round"/>
+      </svg>
+      <div class="grid md:grid-cols-5 gap-8 md:gap-4 relative">
+        <div class="reveal">
+          <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">1</div>
+          <h3 class="heebo font-bold mb-2 text-sm">שיחת מיון והתאמה</h3>
+          <p class="text-xs text-ink/70">שיחה אישית איתנו, לוודא שהמרחב הוא המקום הנכון, משני הצדדים.</p>
+        </div>
+        <div class="reveal" style="transition-delay:80ms">
+          <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">2</div>
+          <h3 class="heebo font-bold mb-2 text-sm">אבחון ומיקוד אישי</h3>
+          <p class="text-xs text-ink/70">מבינים איפה צוואר הבקבוק בעסק שלך, ובונים תוכנית עבודה לרבעון הראשון.</p>
+        </div>
+        <div class="reveal" style="transition-delay:160ms">
+          <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">3</div>
+          <h3 class="heebo font-bold mb-2 text-sm">הטמעת מערכת ההפעלה</h3>
+          <p class="text-xs text-ink/70">מצטרפת למאסטרמיינד, לסביבת ה-Coworking ולמעבדת הניסויים.</p>
+        </div>
+        <div class="reveal" style="transition-delay:240ms">
+          <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">4</div>
+          <h3 class="heebo font-bold mb-2 text-sm">יישום לתוצאות</h3>
+          <p class="text-xs text-ink/70">פוסט שפחדת להעלות, עולה. שיחת מכירה שהפחידה אותך, הופכת ללקוח משלם.</p>
+        </div>
+        <div class="reveal" style="transition-delay:320ms">
+          <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">5</div>
+          <h3 class="heebo font-bold mb-2 text-sm">צמיחה והרחבה</h3>
+          <p class="text-xs text-ink/70">אחרי שהיסודות חזקים, מסתכלות קדימה. המרחב צומח יחד איתך.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11. ORIGIN STORY ============ -->
+<section class="py-12 md:py-16">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="card p-8 md:p-10 reveal">
+      <p class="eyebrow text-xs text-spectrum-mint mb-3">למה הקמנו את "המרחב"?</p>
+      <h2 class="heebo text-xl md:text-2xl font-bold mb-5">כי גם אנחנו עמדנו בדיוק בצומת הזה</h2>
+      <p class="text-ink/80 mb-4">נעים להכיר, אנחנו גליה ומרב.</p>
+      <p class="text-ink/80 mb-4">כל אחת מאיתנו הגיעה לנקודה בעסק שבה היא הרגישה בודדה, מוצפת מול ים של כלים, אפשרויות והבטחות, ועמדה בצומת דרכים. הבנו שהבעיה שלנו, ושל עוד המון בעלות עסקים, היא לא חוסר בידע, אלא השיתוק שמגיע מעודף ידע, והבדידות התהומית של קבלת ההחלטות מול המסך.</p>
+      <p class="text-ink/80 mb-4">במקום להמשיך להיאבק לבד, החלטנו לחבור יחד. יצאנו לדרך ארוכה ומעמיקה שכללה מחקר משתמשות, ראיונות עם נשים בשטח, הרצת סדנאות פיילוט, ניתוח פידבקים קפדני – ויישום של כל הידע האסטרטגי שלנו קודם כל על עצמנו. לא חיפשנו עוד "פתרון קסם", אלא סביבה שתעזור לנו, ולכן, לעשות את הדרך ממלבול לבידול בצורה הכי מעשית שיש.</p>
+      <p class="text-ink/80 mb-4 font-bold">"המרחב" לא נולד מתוך תיאוריה באוויר, הוא צמח מתוך השטח.</p>
+      <p class="text-ink/80 mb-4">בנינו את הסביבה והשיטה שאנחנו מאמינות בכל ליבנו שהן הנכונות, המניעות והתומכות ביותר כדי להפוך רעיונות למציאות עסקית יציבה. אנחנו יודעות כמה זה שוחק לבנות עסק יציב לבד, ויודעות בדיוק איך אפשר אחרת.</p>
+      <p class="text-ink/70">אנחנו מחכות לפגוש אותך במרחב הווירטואלי שלנו, להכיר אותך באופן אישי, ולהתחיל לעצב יחד את הדרך שלך.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12. PRICING ============ -->
+<section class="py-16 md:py-20 border-t border-hairline" id="pricing">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="heebo text-2xl md:text-3xl font-bold text-center mb-3 reveal">כל מה שאת צריכה כדי לנווט את העסק שלך</h2>
+    <p class="text-center text-ink/60 mb-10 reveal">כל הרכיבים שבונים יחד את המרחב שלך.</p>
+
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div class="card p-6 reveal">
+        <div class="icon-dot mb-4" style="background:rgba(116,87,253,.12);">
+          <svg class="w-6 h-6" style="color:#7457FD" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="4"/><path d="M16 5v4M16 23v4M27 16h-4M9 16H5M23.2 8.8l-2.8 2.8M11.6 20.4l-2.8 2.8M23.2 23.2l-2.8-2.8M11.6 11.6L8.8 8.8"/></svg>
+        </div>
+        <p class="font-bold text-sm mb-1">מערכת הפעלה עסקית</p>
+        <p class="text-xs text-ink/60">תוכנית עבודה מובנית שמייצרת תוצאות עקביות</p>
+      </div>
+      <div class="card p-6 reveal" style="transition-delay:60ms">
+        <div class="icon-dot mb-4" style="background:rgba(255,91,151,.12);">
+          <svg class="w-6 h-6" style="color:#FF5B97" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9h14a3 3 0 013 3v6a3 3 0 01-3 3h-3l-4 4v-4h-7a3 3 0 01-3-3v-6a3 3 0 013-3z"/></svg>
+        </div>
+        <p class="font-bold text-sm mb-1">מפגשי מאסטרמיינד (דו-שבועי)</p>
+        <p class="text-xs text-ink/60">פידבק מקצועי וסיעור מוחות בזמן אמת</p>
+      </div>
+      <div class="card p-6 reveal" style="transition-delay:120ms">
+        <div class="icon-dot mb-4" style="background:rgba(96,224,226,.15);">
+          <svg class="w-6 h-6" style="color:#2BAEB0" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="22" height="14" rx="2"/><path d="M12 26h8M16 21v5"/></svg>
+        </div>
+        <p class="font-bold text-sm mb-1">מרחב עבודה דיגיטלי</p>
+        <p class="text-xs text-ink/60">Silent Coworking שמחסל דחיינות</p>
+      </div>
+      <div class="card p-6 reveal" style="transition-delay:180ms">
+        <div class="icon-dot mb-4" style="background:rgba(255,161,88,.15);">
+          <svg class="w-6 h-6" style="color:#FFA158" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4h6M14 4v6l-6 12a2 2 0 002 3h12a2 2 0 002-3l-6-12V4"/></svg>
+        </div>
+        <p class="font-bold text-sm mb-1">מעבדת ניסויים לאבות-טיפוס</p>
+        <p class="text-xs text-ink/60">מרחב בטוח לבחון רעיונות ולקבל משוב מהיר</p>
+      </div>
+      <div class="card p-6 reveal" style="transition-delay:240ms">
+        <div class="icon-dot mb-4" style="background:rgba(116,87,253,.12);">
+          <svg class="w-6 h-6" style="color:#7457FD" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="3"/><circle cx="7" cy="9" r="2"/><circle cx="25" cy="9" r="2"/><circle cx="7" cy="23" r="2"/><circle cx="25" cy="23" r="2"/><path d="M13.5 14.5L8.5 10.5M18.5 14.5l5-4M13.5 17.5l-5 4M18.5 17.5l5 4"/></svg>
+        </div>
+        <p class="font-bold text-sm mb-1">הדרכת AI לבניית "מוח דיגיטלי"</p>
+        <p class="text-xs text-ink/60">ליווי אישי בבניית מערכת ניהול ידע</p>
+      </div>
+      <div class="card p-6 reveal" style="transition-delay:300ms">
+        <div class="icon-dot mb-4" style="background:rgba(255,91,151,.12);">
+          <svg class="w-6 h-6" style="color:#FF5B97" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="16" r="7"/><circle cx="20" cy="16" r="7"/></svg>
+        </div>
+        <p class="font-bold text-sm mb-1">ליווי הוליסטי וצמוד (גליה ומרב)</p>
+        <p class="text-xs text-ink/60">חזון ובידול, לצד חוסן מנטלי ופרקטיקה</p>
+      </div>
+    </div>
+
+    <div class="card p-6 md:p-8 mt-8 max-w-2xl mx-auto text-center reveal">
+      <p class="text-sm text-ink/70">עלות חודשית נוחה, כמעט ולא תרגישו אותה — מול כל מה שתקבלו בתמורה.</p>
+      <p class="text-xs text-ink/50 mt-2 mb-6">ללא התחייבות · ניתן לעזוב בכל עת</p>
+      <a href="#apply" class="btn-primary w-full text-center block">אני רוצה שיחת היכרות</a>
+      <p class="text-xs text-ink/45 text-center mt-3">בודקות יחד אם זה נכון לך, ואם את נכונה למרחב.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13. WHO IT'S FOR / NOT FOR ============ -->
+<section class="py-16 md:py-20">
+  <div class="max-w-4xl mx-auto px-6">
+    <h2 class="heebo text-2xl md:text-3xl font-bold text-center mb-12 reveal">המרחב לא מתאים לכל אחת, וזה בכוונה</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="card p-6 md:p-7 reveal">
+        <p class="eyebrow text-xs text-ink/50 mb-4">המרחב הוא בשבילך אם</p>
+        <ul class="space-y-3 text-sm text-ink/80">
+          <li class="flex gap-3"><svg class="w-5 h-5 shrink-0 mt-0.5" style="color:#2BAEB0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l6 6L20 6"/></svg>את בעלת עסק עם חזון גדול, שכבר מבינה שהצלחה לא מגיעה מקסמים.</li>
+          <li class="flex gap-3"><svg class="w-5 h-5 shrink-0 mt-0.5" style="color:#2BAEB0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l6 6L20 6"/></svg>מוכנה להשקיע זמן ואנרגיה בתהליך אמיתי, לא בפתרון קסם.</li>
+          <li class="flex gap-3"><svg class="w-5 h-5 shrink-0 mt-0.5" style="color:#2BAEB0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l6 6L20 6"/></svg>רוצה להיות חלק מקבוצה איכותית של נשים שדוחפות אחת את השנייה קדימה.</li>
+          <li class="flex gap-3"><svg class="w-5 h-5 shrink-0 mt-0.5" style="color:#2BAEB0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l6 6L20 6"/></svg>מוכנה לשמוע פידבק כן, ולאתגר את דפוסי החשיבה שלך.</li>
+        </ul>
+      </div>
+      <div class="card p-6 md:p-7 reveal" style="transition-delay:100ms">
+        <p class="eyebrow text-xs text-ink/50 mb-4">המרחב הוא לא בשבילך אם</p>
+        <ul class="space-y-3 text-sm text-ink/80">
+          <li class="flex gap-3"><svg class="w-5 h-5 shrink-0 mt-0.5" style="color:#e08bab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>את מחפשת פתרון מהיר, ומאמינה שהקורס הבא יפתור הכול.</li>
+          <li class="flex gap-3"><svg class="w-5 h-5 shrink-0 mt-0.5" style="color:#e08bab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>אין לך פניות רגשית או מנטלית להתחייב לתהליך של עשייה.</li>
+          <li class="flex gap-3"><svg class="w-5 h-5 shrink-0 mt-0.5" style="color:#e08bab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>את מחפשת קהילת נטוורקינג גדולה ורועשת, לא סביבת עבודה ממוקדת.</li>
+          <li class="flex gap-3"><svg class="w-5 h-5 shrink-0 mt-0.5" style="color:#e08bab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>את לא מוכנה לשמוע פידבק כן, או לאתגר דפוסים.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14. FAQ ============ -->
+<section class="py-16 md:py-20 border-t border-hairline">
+  <div class="max-w-2xl mx-auto px-6">
+    <h2 class="heebo text-2xl md:text-3xl font-bold text-center mb-12 reveal">כמה מחשבות שאולי עוברות לך בראש</h2>
+    <div class="divide-y divide-hairline">
+      <details class="py-5 reveal">
+        <summary class="flex justify-between items-center cursor-pointer list-none font-bold">
+          <span>ניסיתי כבר קהילות אחרות וזה לא עבד לי. איך זה שונה?</span>
+          <svg class="w-5 h-5 shrink-0 text-ink/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <p class="mt-3 text-ink/70 text-sm">רוב הקהילות פסיביות: הרצאות, נטוורקינג, השראה. המרחב הוא סביבת עבודה אקטיבית. לא נפגשות כדי לדבר, נפגשות כדי לעבוד. המוצר שלנו הוא הסביבה והשיטה, לא הקהילה.</p>
+      </details>
+      <details class="py-5 reveal">
+        <summary class="flex justify-between items-center cursor-pointer list-none font-bold">
+          <span>אין לי זמן לזה עכשיו, אני גם ככה מוצפת.</span>
+          <svg class="w-5 h-5 shrink-0 text-ink/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <p class="mt-3 text-ink/70 text-sm">זו בדיוק הסיבה שבגללה את צריכה את המרחב. המטרה היא לא להוסיף משימות, אלא לפנות זמן, על ידי חיסול הזמן שהולך על דחיינות והתלבטויות שלא ממוקדות.</p>
+      </details>
+      <details class="py-5 reveal">
+        <summary class="flex justify-between items-center cursor-pointer list-none font-bold">
+          <span>אני מפחדת מההשקעה הכספית. מה אם זה לא יצדיק את עצמו?</span>
+          <svg class="w-5 h-5 shrink-0 text-ink/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <p class="mt-3 text-ink/70 text-sm">בדיוק בגלל זה בנינו את המודל סביב שיחת התאמה. אין חוזים, אין התחייבות ארוכת טווח. אם זה לא מדבר אלייך, את עוזבת בכל עת.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15. CLOSING CTA (bookend) ============ -->
+<section class="relative overflow-hidden bg-hero text-card py-20 md:py-28" id="apply">
+  <!-- arch motif #3 — large background shape behind CTA -->
+  <svg class="absolute left-1/2 -translate-x-1/2 -bottom-16 w-[90%] max-w-2xl h-auto text-card/[0.06] pointer-events-none" viewBox="0 0 48 30" preserveAspectRatio="xMidYMax meet" fill="none" stroke="currentColor" stroke-width="1.2">
+    <path d="M2 30 V13 A11 11 0 0 1 13 2 H35 A11 11 0 0 1 46 13 V30" />
+  </svg>
+  <div class="pointer-events-none absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full blur-[110px] opacity-[0.14]"
+       style="background: conic-gradient(from 200deg, #60E0E2, #7457FD, transparent 70%);"></div>
+
+  <div class="relative z-10 max-w-2xl mx-auto px-6 text-center reveal">
+    <img src="assets/merchav-negative-tight.png" alt="המרחב" class="h-9 mx-auto mb-3 opacity-90">
+    <p class="text-sm text-card/55 font-light tracking-wide mb-8">הופכות חזון לעסק יציב בעולם משתנה</p>
+    <h2 class="heebo text-3xl md:text-5xl font-bold leading-tight mb-6">את במרחק שיחה אחת מלהפסיק לפעול לבד.</h2>
+    <p class="text-card/75 mb-10 max-w-lg mx-auto">שיחת ההיכרות היא לא שיחת מכירה, היא הזדמנות לבדוק, משני הצדדים, אם המרחב הוא באמת המקום שלך. מספר מקומות המייסדות מוגבל.</p>
+    <div class="merchav-form-card">
+      <!-- sendmsg form start -->
+      <div class="fc-form form_345991 type-vertical rtl" data-form-id="345991-d7efbed6-61eb-d142-f052-c3396096db50-46317" data-smart="true" style="width: 342px; height: 578px; margin: auto;"><script type="text/javascript" src="https://app.creaditor.com/formCreator/assets/fc-basics.min.js"></script></div>
+      <!-- sendmsg form end -->
+    </div>
+    <p class="mt-4 text-sm text-card/55">בלי לחץ, בלי מכירה · עד ₪300 בחודש למי שמתאים</p>
+  </div>
+</section>
+
+<!-- ============ 16. FOOTER ============ -->
+<footer class="py-10">
+  <div class="max-w-4xl mx-auto px-6 flex flex-col items-center gap-4">
+    <p class="heebo text-lg font-black text-ink/40">המרחב</p>
+    <p class="text-xs text-ink/40 space">© 2026 המרחב. כל הזכויות שמורות.</p>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach((el) => io.observe(el));
+
+  // hero reveal on load
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.reveal-hero').forEach((el) => {
+      requestAnimationFrame(() => el.classList.add('is-visible'));
+    });
+  });
+
+  // logo marquee — self-measuring, self-correcting infinite scroll.
+  // Rather than trust a precomputed CSS percentage (which drifts if a gap,
+  // a margin, or an image's loaded size doesn't match what was assumed),
+  // this measures the ACTUAL rendered width of one logo set in the
+  // browser, clones it enough times to always cover the viewport (plus a
+  // spare set as buffer), and drives the position every frame with
+  // requestAnimationFrame, wrapping it with modulo against that same
+  // measured width. The loop point is always real, on-screen pixels —
+  // there's no separate value that can fall out of sync with it.
+  (function () {
+    const viewport = document.getElementById('logoMarquee');
+    const track = document.getElementById('logoMarqueeTrack');
+    if (!viewport || !track) return;
+
+    const original = track.querySelector('.logo-marquee-set');
+    if (!original) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const images = Array.from(original.querySelectorAll('img'));
+    const imagesReady = Promise.all(images.map((img) => {
+      if (img.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+    }));
+
+    imagesReady.then(() => {
+      const SPEED = 40; // px/second
+      let setWidth = 0;
+      let offset = 0;
+      let paused = false;
+      let lastTime = null;
+      let rafId = null;
+
+      function fillViewport() {
+        Array.from(track.children).forEach((el, i) => { if (i > 0) el.remove(); });
+        setWidth = original.getBoundingClientRect().width;
+        if (!setWidth) return;
+        const copiesNeeded = Math.ceil(viewport.clientWidth / setWidth) + 2;
+        for (let i = 1; i < copiesNeeded; i++) {
+          const clone = original.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          clone.querySelectorAll('img').forEach((img) => img.setAttribute('alt', ''));
+          track.appendChild(clone);
+        }
+        offset = setWidth ? offset % setWidth : 0;
+      }
+
+      let activeEl = null;
+      let activeCheckTimer = 0;
+
+      function updateActiveLogo() {
+        const viewportRect = viewport.getBoundingClientRect();
+        const centerX = viewportRect.left + viewportRect.width / 2;
+        let closest = null;
+        let closestDist = Infinity;
+        track.querySelectorAll('.logo-marquee-item').forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.right < viewportRect.left || r.left > viewportRect.right) return;
+          const dist = Math.abs((r.left + r.width / 2) - centerX);
+          if (dist < closestDist) { closestDist = dist; closest = el; }
+        });
+        if (closest !== activeEl) {
+          if (activeEl) activeEl.classList.remove('active');
+          if (closest) closest.classList.add('active');
+          activeEl = closest;
+        }
+      }
+
+      function tick(time) {
+        if (lastTime === null) lastTime = time;
+        const dt = (time - lastTime) / 1000;
+        lastTime = time;
+        if (!paused && setWidth > 0) {
+          offset += SPEED * dt;
+          if (offset >= setWidth) offset -= setWidth;
+          track.style.transform = 'translateX(' + (-offset) + 'px)';
+        }
+        activeCheckTimer += dt * 1000;
+        if (activeCheckTimer > 150) {
+          activeCheckTimer = 0;
+          updateActiveLogo();
+        }
+        rafId = requestAnimationFrame(tick);
+      }
+
+      fillViewport();
+      rafId = requestAnimationFrame(tick);
+
+      viewport.addEventListener('mouseenter', () => { paused = true; });
+      viewport.addEventListener('mouseleave', () => { paused = false; });
+
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(fillViewport, 200);
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
