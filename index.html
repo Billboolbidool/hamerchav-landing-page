@@ -257,8 +257,18 @@
     min-height: 0 !important;
     box-sizing: border-box !important;
   }
+  /* the builder's inline height isn't only on the outer .fc-form div — its
+     nested row/wrapper containers each carry their own hardcoded inline
+     height too (sized for the builder's preview canvas), which is what left
+     a block of dead space below the checkbox once the outer height was
+     freed. Forcing height:auto on every descendant collapses those too. */
   .merchav-form-card .fc-form *,
-  .merchav-form-card .fc-form { max-width: 100% !important; box-sizing: border-box !important; }
+  .merchav-form-card .fc-form {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
   .merchav-form-card .fc-form,
   .merchav-form-card .fc-form * { font-family: 'Assistant', sans-serif !important; }
   /* the embed's own theme wraps every row (including the consent checkbox)
@@ -314,6 +324,7 @@
     font-size: 13px !important;
     line-height: 1.5 !important;
     color: #4a4f6e !important;
+    margin-bottom: 4px !important;
   }
   /* gradient "frame" rather than a flat gradient fill — same technique as
      the .portal picture-frame (gradient border-box behind a solid
@@ -921,7 +932,6 @@
       <div class="fc-form form_345991 type-vertical rtl" data-form-id="345991-d7efbed6-61eb-d142-f052-c3396096db50-46317" data-smart="true" style="width: 342px; height: 578px; margin: auto;"><script type="text/javascript" src="https://app.creaditor.com/formCreator/assets/fc-basics.min.js"></script></div>
       <!-- sendmsg form end -->
     </div>
-    <p class="mt-4 text-sm text-card/55">בלי לחץ, בלי מכירה · עד ₪300 בחודש למי שמתאים</p>
   </div>
 </section>
 
