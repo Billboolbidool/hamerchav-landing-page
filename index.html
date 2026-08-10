@@ -208,13 +208,13 @@
     mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); }
   .logo-marquee-track { display: flex; align-items: center; width: max-content; will-change: transform; }
   .logo-marquee-set { display: flex; align-items: center; flex: none; }
-  .logo-marquee-item { flex: none; height: 46px; display: flex; align-items: center; margin-inline-end: 56px; }
-  .logo-marquee-item img { height: 100%; width: auto; max-width: 140px; object-fit: contain; filter: grayscale(1); opacity: .5; transition: opacity 250ms ease-out, filter 250ms ease-out, transform 250ms ease-out; }
-  .logo-marquee-item img:hover { filter: grayscale(0); opacity: 1; }
-  .logo-marquee-item.active img { filter: grayscale(0); opacity: 1; transform: scale(1.15); }
+  .logo-marquee-item { flex: none; height: 54px; display: flex; align-items: center; margin-inline-end: 60px; }
+  .logo-marquee-item img { height: 100%; width: auto; max-width: 160px; object-fit: contain; filter: grayscale(1); opacity: .5; transition: opacity 250ms ease-out, filter 250ms ease-out, transform 250ms ease-out; }
+  .logo-marquee-item img:hover { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
+  .logo-marquee-item.active img { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
   @media (max-width: 640px) {
-    .logo-marquee-item { height: 34px; margin-inline-end: 36px; }
-    .logo-marquee-item img { max-width: 104px; }
+    .logo-marquee-item { height: 40px; margin-inline-end: 36px; }
+    .logo-marquee-item img { max-width: 120px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .logo-marquee-track { flex-wrap: wrap; justify-content: center; width: 100%; gap: 20px; }
@@ -258,6 +258,16 @@
     gap: 10px;
     color: #0A0B2E;
     opacity: .45;
+  }
+  .testimonial-shot {
+    width: 220px;
+    flex-shrink: 0;
+    margin-inline-end: 18px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #E7E1D4;
+    box-shadow: 0 10px 24px -14px rgba(10,11,46,.35);
   }
   @media (prefers-reduced-motion: reduce) {
     .testimonial-track { direction: rtl; flex-wrap: wrap; width: 100%; justify-content: center; }
@@ -631,9 +641,16 @@
         <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 12.png" width="2000" height="2000" decoding="async" alt=""></div>
         <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 13.png" width="354" height="292" decoding="async" alt="Teperberg – יקב טפרברג"></div>
         <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 14.png" width="213" height="196" decoding="async" alt="Afifi Group"></div>
-        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 15.png" width="445" height="182" decoding="async" alt="Delta"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 15.png" width="579" height="236" decoding="async" alt="Delta"></div>
         <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 16.png" width="241" height="258" decoding="async" alt="TLV Fashion Mall"></div>
         <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 17.png" width="297" height="301" decoding="async" alt="einstein"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 18.png" width="276" height="143" decoding="async" alt="Precycle – AI Recycling that works"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 19.png" width="1916" height="1083" decoding="async" alt="עמותת צלול"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 20.png" width="136" height="139" decoding="async" alt="Heschel Sustainability Center – מרכז השל לקיימות"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 21.png" width="216" height="210" decoding="async" alt="Council for a Beautiful Israel – המועצה לישראל יפה"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 22.png" width="378" height="286" decoding="async" alt="Greenmix"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 23.png" width="2615" height="2169" decoding="async" alt="איגודן"></div>
+        <div class="logo-marquee-item"><img src="LOGO SCROLL/LOGO GALLERY 24.png" width="291" height="224" decoding="async" alt="Ace Hardware"></div>
       </div>
     </div>
   </div>
@@ -946,42 +963,29 @@
     <h2 class="heebo text-2xl md:text-3xl font-bold text-center mb-2 reveal">לא אנחנו אומרות. הן אומרות.</h2>
     <p class="text-center text-ink/60 mb-10 max-w-xl mx-auto reveal">קטעים אמיתיים מתוך משובים של משתתפות בסדנאות לוח החזון והאיקיגאי בהנחיית גליה.</p>
 
-    <!-- screenshots — PLACEHOLDERS ONLY. To add a real screenshot: delete one
-         .screenshot-placeholder <div>...</div> block below and put in its place
-         an <img class="testimonial-shot" src="assets/testimonials/FILENAME.jpg" alt="צילום מסך המלצה">
-         (the .screenshot-placeholder width/aspect-ratio in the CSS above shows
-         the frame size a photo should roughly fill). Add or remove as many as needed;
-         the marquee JS at the bottom of the page auto-clones whatever is inside
+    <!-- screenshots — real testimonial screenshots (Ori Shavit + workshop
+         participants), sourced from assets/testimonials/. To add another:
+         drop an <img class="testimonial-shot" src="assets/testimonials/FILENAME.png"
+         alt="..."> into .testimonial-set below (square-ish photos fit the
+         frame best, see .testimonial-shot in the CSS above). The marquee JS
+         at the bottom of the page auto-clones whatever is inside
          .testimonial-set to fill the row, so no other markup needs to change. -->
     <div class="mb-12 reveal">
       <p class="eyebrow text-[11px] text-ink/40 mb-4">מתוך הצילומים שקיבלנו</p>
       <div class="testimonial-scroll" id="shotsMarquee">
         <div class="testimonial-track" id="shotsMarqueeTrack" dir="ltr">
           <div class="testimonial-set">
-            <div class="screenshot-placeholder" dir="rtl">
-              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
-              <span class="text-xs text-center px-3">צילום מסך יתווסף כאן</span>
-            </div>
-            <div class="screenshot-placeholder" dir="rtl">
-              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
-              <span class="text-xs text-center px-3">צילום מסך יתווסף כאן</span>
-            </div>
-            <div class="screenshot-placeholder" dir="rtl">
-              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
-              <span class="text-xs text-center px-3">צילום מסך יתווסף כאן</span>
-            </div>
-            <div class="screenshot-placeholder" dir="rtl">
-              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
-              <span class="text-xs text-center px-3">צילום מסך יתווסף כאן</span>
-            </div>
-            <div class="screenshot-placeholder" dir="rtl">
-              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
-              <span class="text-xs text-center px-3">צילום מסך יתווסף כאן</span>
-            </div>
-            <div class="screenshot-placeholder" dir="rtl">
-              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
-              <span class="text-xs text-center px-3">צילום מסך יתווסף כאן</span>
-            </div>
+            <img class="testimonial-shot" src="assets/testimonials/1.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/14.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/5.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/6.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/7.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/8.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/9.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/10.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/11.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/12.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
+            <img class="testimonial-shot" src="assets/testimonials/13.png" width="1200" height="1200" decoding="async" alt="צילום מסך המלצה">
           </div>
         </div>
       </div>
@@ -1407,10 +1411,13 @@
   })();
 
   // testimonial marquees — same measured-clone auto-scroll technique as the
-  // logo marquee above (no image-load wait needed here since cards are
-  // text/SVG only). No "active item" tracking either, that was specific to
-  // recognizing logo brands. Pausing on hover/focus lets someone actually
-  // read a card before it scrolls away.
+  // logo marquee above. The quotes row is text/SVG only, but the shots row
+  // holds real <img> screenshots, so (like the logo marquee) it waits for
+  // those to load before measuring — otherwise setWidth would be measured
+  // from not-yet-loaded images and the fill/loop math would be wrong. No
+  // "active item" tracking either, that was specific to recognizing logo
+  // brands. Pausing on hover/focus lets someone actually read a card before
+  // it scrolls away.
   function initTestimonialMarquee(viewportId, trackId, speed) {
     const viewport = document.getElementById(viewportId);
     const track = document.getElementById(trackId);
@@ -1420,6 +1427,15 @@
     if (!original) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const images = Array.from(original.querySelectorAll('img'));
+    const imagesReady = Promise.all(images.map((img) => {
+      if (img.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+    }));
 
     let setWidth = 0;
     let offset = 0;
@@ -1434,6 +1450,7 @@
       for (let i = 1; i < copiesNeeded; i++) {
         const clone = original.cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
+        clone.querySelectorAll('img').forEach((img) => img.setAttribute('alt', ''));
         track.appendChild(clone);
       }
       offset = setWidth ? offset % setWidth : 0;
@@ -1451,18 +1468,20 @@
       requestAnimationFrame(tick);
     }
 
-    fillViewport();
-    requestAnimationFrame(tick);
+    imagesReady.then(() => {
+      fillViewport();
+      requestAnimationFrame(tick);
 
-    viewport.addEventListener('mouseenter', () => { paused = true; });
-    viewport.addEventListener('mouseleave', () => { paused = false; });
-    viewport.addEventListener('focusin', () => { paused = true; });
-    viewport.addEventListener('focusout', () => { paused = false; });
+      viewport.addEventListener('mouseenter', () => { paused = true; });
+      viewport.addEventListener('mouseleave', () => { paused = false; });
+      viewport.addEventListener('focusin', () => { paused = true; });
+      viewport.addEventListener('focusout', () => { paused = false; });
 
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(fillViewport, 200);
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(fillViewport, 200);
+      });
     });
   }
 
