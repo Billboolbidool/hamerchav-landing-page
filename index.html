@@ -415,28 +415,35 @@
     transform: translateY(-1px);
   }
 
-  /* mobile readability pass — ink/40, ink/45 and ink/50 all fall below the
-     4.5:1 WCAG AA contrast floor against the cream page background (measured
-     ~2.6:1 / ~3.1:1 / ~3.5:1), which reads fine on a calibrated desktop
-     monitor but goes close to illegible on phone screens (glare, smaller
-     glyphs). Scoped to mobile only (matches the md: breakpoint already used
-     throughout this file) so the desktop look — including the intentionally
-     faint "whisper" labels — is untouched. !important is needed because
-     these override Tailwind's own dynamically-injected utility classes. */
+  /* mobile readability pass — round 2. Round 1 only fixed contrast; on a
+     real phone the base sizes themselves (text-xs=12px, text-sm=14px) were
+     still below the ~16px minimum that usability research (NN/g and general
+     web-accessibility consensus) recommends for mobile body text, and below
+     the ~18px comfort range commonly cited for readers 45+. This overrides
+     the Tailwind size utilities themselves — not one-off selectors — so
+     every text-xs/text-sm instance site-wide (roadmap step titles, pricing
+     card copy, testimonial quotes, FAQ answers, "who it's for" lists, role
+     tags) grows together. rem (not px) on purpose, to stay consistent with
+     Tailwind's own scale and not regress WCAG 1.4.4/1.4.10 (text must stay
+     resizable/reflow-able relative to the root size, not pinned in px).
+     ink/40, ink/45 and ink/50 fall below the 4.5:1 WCAG AA contrast floor
+     against the cream page background (measured ~2.6:1 / ~3.1:1 / ~3.5:1) —
+     fine on a calibrated desktop monitor, close to illegible on a phone.
+     All of this is scoped to mobile only (matches the md: breakpoint
+     already used throughout this file) so the desktop look is untouched.
+     !important is needed throughout because these override Tailwind's own
+     dynamically-injected utility classes. */
   @media (max-width: 767px) {
     .text-ink\/40, .text-ink\/45, .text-ink\/50 { color: rgba(10,11,46,.68) !important; }
+
+    .text-xs { font-size: 0.875rem !important; line-height: 1.5 !important; }
+    .text-\[11px\] { font-size: 0.8125rem !important; }
+    .text-sm { font-size: 1rem !important; line-height: 1.6 !important; }
 
     /* letter-spacing this wide on small Hebrew glyphs hurts word
        recognition more than it helps the "label" look — tighten on mobile
        only, size/position untouched. */
     .eyebrow { letter-spacing: 0.08em; }
-    .eyebrow.text-\[11px\] { font-size: 12px; }
-
-    /* these two spots are fixed at 12px with no md: variant (unlike most
-       body copy on the page, which already steps up via md:text-sm) — a
-       small bump keeps them legible without reflowing their cards/grid. */
-    .flow-station p.text-xs,
-    .roadmap-step-desc { font-size: 13px; }
   }
 </style>
 </head>
@@ -857,27 +864,27 @@
         <div class="reveal">
           <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">1</div>
           <h3 class="heebo font-bold mb-2 text-sm">שיחת מיון והתאמה</h3>
-          <p class="text-xs text-ink/70 roadmap-step-desc">שיחה אישית איתנו, לוודא שהמרחב הוא המקום הנכון, משני הצדדים.</p>
+          <p class="text-xs text-ink/70">שיחה אישית איתנו, לוודא שהמרחב הוא המקום הנכון, משני הצדדים.</p>
         </div>
         <div class="reveal" style="transition-delay:80ms">
           <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">2</div>
           <h3 class="heebo font-bold mb-2 text-sm">אבחון ומיקוד אישי</h3>
-          <p class="text-xs text-ink/70 roadmap-step-desc">מבינים איפה צוואר הבקבוק בעסק שלך, ובונים תוכנית עבודה לרבעון הראשון.</p>
+          <p class="text-xs text-ink/70">מבינים איפה צוואר הבקבוק בעסק שלך, ובונים תוכנית עבודה לרבעון הראשון.</p>
         </div>
         <div class="reveal" style="transition-delay:160ms">
           <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">3</div>
           <h3 class="heebo font-bold mb-2 text-sm">הטמעת מערכת ההפעלה</h3>
-          <p class="text-xs text-ink/70 roadmap-step-desc">מצטרפת למאסטרמיינד, לסביבת ה-Coworking ולמעבדת הניסויים.</p>
+          <p class="text-xs text-ink/70">מצטרפת למאסטרמיינד, לסביבת ה-Coworking ולמעבדת הניסויים.</p>
         </div>
         <div class="reveal" style="transition-delay:240ms">
           <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">4</div>
           <h3 class="heebo font-bold mb-2 text-sm">יישום לתוצאות</h3>
-          <p class="text-xs text-ink/70 roadmap-step-desc">פוסט שפחדת להעלות, עולה. שיחת מכירה שהפחידה אותך, הופכת ללקוח משלם.</p>
+          <p class="text-xs text-ink/70">פוסט שפחדת להעלות, עולה. שיחת מכירה שהפחידה אותך, הופכת ללקוח משלם.</p>
         </div>
         <div class="reveal" style="transition-delay:320ms">
           <div class="space text-sm w-10 h-10 rounded-full border border-ink/30 flex items-center justify-center mb-4 bg-page">5</div>
           <h3 class="heebo font-bold mb-2 text-sm">צמיחה והרחבה</h3>
-          <p class="text-xs text-ink/70 roadmap-step-desc">אחרי שהיסודות חזקים, מסתכלות קדימה. המרחב צומח יחד איתך.</p>
+          <p class="text-xs text-ink/70">אחרי שהיסודות חזקים, מסתכלות קדימה. המרחב צומח יחד איתך.</p>
         </div>
       </div>
     </div>
