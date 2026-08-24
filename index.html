@@ -101,6 +101,30 @@
   .card-accent { border-top-width: 3px; border-top-style: solid; }
   .icon-dot { width: 44px; height: 44px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; }
 
+  /* hero-copy — a dark backdrop panel sized to the text block itself,
+     not a percentage of the full viewport. The hero's existing diagonal
+     gradient over the video darkens by *screen-width* percentage, so on a
+     narrow phone (where the text column is nearly the full width) much of
+     the paragraph sits past the point where that gradient has already
+     faded out — and the same can happen on desktop depending on which
+     video frame is playing. Anchoring the scrim to the text's own box
+     (inset, not a fixed size) makes contrast reliable regardless of
+     viewport width or video content. The blur is a bonus: it softens
+     whatever's playing directly behind the letters instead of just
+     darkening it. */
+  .hero-copy { position: relative; z-index: 0; }
+  .hero-copy::before {
+    content: '';
+    position: absolute;
+    inset: -20px -24px;
+    background: linear-gradient(135deg, rgba(14,16,38,.6), rgba(14,16,38,.4));
+    border-radius: 20px;
+    z-index: -1;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    pointer-events: none;
+  }
+
   /* Portal — the arch as a reusable picture frame, per the brand's own
      "Portal" concept (BRAND IDENTITY EXPLORATION BRIEF: entering a new
      mindset / transition / threshold). Gradient-bordered arch, spectrum
@@ -507,6 +531,15 @@
        note. Overridden back down independently of .text-sm. */
     .ai-note-pill { font-size: 1rem !important; line-height: 1.45 !important; }
 
+    /* the 3 CTA buttons (.btn-primary/.btn-light/.btn-outline) don't set
+       their own font-size in the base rules above — they inherit whatever
+       size surrounds them, which used to be a reasonable ~16px default and
+       is now this block's 22px body size. Their padding (16px 32px) was
+       sized for a normal button label, not a paragraph-sized one, so they
+       ballooned into oversized blocks. Pinning them back down independent
+       of body/paragraph sizing. */
+    .btn-primary, .btn-light, .btn-outline { font-size: 1.0625rem !important; }
+
     /* letter-spacing this wide on small Hebrew glyphs hurts word
        recognition more than it helps the "label" look — tighten on mobile
        only, size/position untouched. */
@@ -551,7 +584,7 @@
        style="background: conic-gradient(from 90deg, #7457FD, #FF5B97, transparent 70%);"></div>
 
   <div class="relative z-10 max-w-6xl mx-auto px-6 flex" style="min-height: clamp(580px, 84vh, 860px);">
-    <div class="max-w-lg self-center py-24">
+    <div class="hero-copy max-w-lg self-center pt-28 pb-20">
       <div class="flex items-baseline heebo font-bold text-[2.5rem] md:text-[3rem] leading-none mb-3 reveal-hero" style="color:#FBFAF6;" id="hero-logo" aria-label="המרחב">
         <span>המר</span>
         <svg viewBox="4 0 144 100" class="mx-[3px]" style="height:0.61em; width:auto; overflow:visible;" aria-hidden="true"><path d="M14,100 L14,56 C14,-14 138,-14 138,56 L138,100" fill="none" stroke="url(#spectrumBright)" stroke-width="11" stroke-linecap="butt" stroke-linejoin="round"/></svg>
