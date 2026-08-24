@@ -101,23 +101,16 @@
   .card-accent { border-top-width: 3px; border-top-style: solid; }
   .icon-dot { width: 44px; height: 44px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; }
 
-  /* hero-copy-highlight — a snug, per-line "marker highlight" behind just
-     the hero subtitle's own text, not a panel over the whole text block or
-     any blur over the video. box-decoration-break:clone is what makes this
-     work on a wrapped multi-line paragraph: without it, padding/background
-     on an inline span that wraps only draws on the first and last lines
-     (leaving the middle line(s) unpadded/oddly shaped); with it, every
-     wrapped line gets its own identically-rounded background, so the
-     highlight hugs the actual glyphs line by line instead of covering a
-     rectangle around them. The video everywhere else — including right up
-     to the edges of the text — stays fully sharp and untouched. */
-  .hero-copy-highlight {
-    background: linear-gradient(120deg, rgba(10,12,32,.78), rgba(10,12,32,.62));
-    padding: 0.2em 0.5em;
-    border-radius: 6px;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-  }
+  /* hero-copy — contrast now comes from the radial-gradient overlay behind
+     the video (an ellipse anchored at "right center", easing smoothly
+     through many stops instead of a hard edge — same technique Netflix
+     uses for text-over-video, see ishadeed.com/article/handling-text-over-image-css),
+     not from any box/highlight touching the text. This text-shadow is a
+     second, quieter layer of insurance on top of that: it gives each
+     letter a little contrast of its own without drawing a visible shape
+     around the text, so it holds up even in a brighter moment of the
+     video loop that the gradient alone might not fully cover. */
+  .hero-copy :is(h1, p) { text-shadow: 0 2px 10px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.35); }
 
   /* Portal — the arch as a reusable picture frame, per the brand's own
      "Portal" concept (BRAND IDENTITY EXPLORATION BRIEF: entering a new
@@ -570,7 +563,10 @@
     <div class="absolute inset-0" style="background:
       linear-gradient(to bottom, #262C4A 0%, transparent 18%),
       linear-gradient(to top, #262C4A 0%, transparent 14%),
-      linear-gradient(to left, #262C4A 0%, rgba(38,44,74,.75) 38%, rgba(38,44,74,.1) 68%, transparent 100%);"></div>
+      radial-gradient(ellipse 95% 90% at right center,
+        rgba(13,15,36,.88) 0%, rgba(13,15,36,.82) 18%, rgba(13,15,36,.66) 34%,
+        rgba(13,15,36,.44) 48%, rgba(13,15,36,.26) 60%, rgba(13,15,36,.13) 72%,
+        rgba(13,15,36,.05) 84%, transparent 100%);"></div>
   </div>
 
   <!-- spectrum edge glow — single anchored moment, not centered -->
@@ -578,7 +574,7 @@
        style="background: conic-gradient(from 90deg, #7457FD, #FF5B97, transparent 70%);"></div>
 
   <div class="relative z-10 max-w-6xl mx-auto px-6 flex" style="min-height: clamp(580px, 84vh, 860px);">
-    <div class="max-w-lg self-center pt-28 pb-20">
+    <div class="hero-copy max-w-lg self-center pt-32 pb-16">
       <div class="flex items-baseline heebo font-bold text-[2.5rem] md:text-[3rem] leading-none mb-3 reveal-hero" style="color:#FBFAF6;" id="hero-logo" aria-label="המרחב">
         <span>המר</span>
         <svg viewBox="4 0 144 100" class="mx-[3px]" style="height:0.61em; width:auto; overflow:visible;" aria-hidden="true"><path d="M14,100 L14,56 C14,-14 138,-14 138,56 L138,100" fill="none" stroke="url(#spectrumBright)" stroke-width="11" stroke-linecap="butt" stroke-linejoin="round"/></svg>
@@ -598,7 +594,7 @@
       </h1>
 
       <p class="text-lg md:text-xl text-card/80 font-light mb-10 reveal-hero" style="transition-delay:320ms">
-        <span class="hero-copy-highlight">סביבת עבודה לבעלות עסקים שרוצות להפוך את הידע, הניסיון והרעיונות שלהן לעסק מצליח ויציב, בליווי צמוד של נשות מקצוע מנוסות לאורך הדרך.</span>
+        סביבת עבודה לבעלות עסקים שרוצות להפוך את הידע, הניסיון והרעיונות שלהן לעסק מצליח ויציב, בליווי צמוד של נשות מקצוע מנוסות לאורך הדרך.
       </p>
 
       <div class="reveal-hero" style="transition-delay:420ms">
