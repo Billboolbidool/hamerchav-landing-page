@@ -500,6 +500,13 @@
     .text-sm { font-size: 1.5rem !important; line-height: 1.5 !important; }
     .text-2xl { font-size: 1.625rem !important; }
 
+    /* the blanket .text-sm bump above is wrong for this one spot: it's a
+       small rounded "chip" (dashed border, tight px-4/py-2 padding) meant
+       to hold a short aside, not a paragraph — at 24px the sentence packed
+       itself into a dense, cramped block instead of reading as a light
+       note. Overridden back down independently of .text-sm. */
+    .ai-note-pill { font-size: 1rem !important; line-height: 1.45 !important; }
+
     /* letter-spacing this wide on small Hebrew glyphs hurts word
        recognition more than it helps the "label" look — tighten on mobile
        only, size/position untouched. */
@@ -834,7 +841,7 @@
     </div>
 
     <div class="flex justify-center mt-6 reveal">
-      <span class="inline-flex items-center gap-2 text-sm md:text-base text-ink/75 rounded-full px-4 py-2" style="border:1px dashed rgba(116,87,253,.35); background:rgba(116,87,253,.06);">
+      <span class="ai-note-pill inline-flex items-center gap-2 text-sm md:text-base text-ink/75 rounded-full px-4 py-2" style="border:1px dashed rgba(116,87,253,.35); background:rgba(116,87,253,.06);">
         <svg class="w-4 h-4 md:w-[18px] md:h-[18px] shrink-0" style="color:#7457FD" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 00-5 5c0 3 2 4 2 7h6c0-3 2-4 2-7a5 5 0 00-5-5z"/><path d="M9 18h6M10 21h4"/></svg>
         לאורך הדרך נלמד ונשתמש בכלי בינה מלאכותית שחוסכים עבודה ומקדמים את העסק - תכלס.
       </span>
