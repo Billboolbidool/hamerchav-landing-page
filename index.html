@@ -277,36 +277,21 @@
     border: 1px solid #E7E1D4;
     box-shadow: 0 10px 24px -14px rgba(10,11,46,.35);
   }
-  @media (prefers-reduced-motion: reduce) {
-    .testimonial-track { direction: rtl; flex-wrap: wrap; width: 100%; justify-content: center; gap: 16px; }
-    /* .testimonial-set is only a wrapper for the infinite-scroll cloning
-       technique — as a flex item it still sizes to its own unwrapped
-       content width, so it silently overflows .testimonial-track and gets
-       clipped by .testimonial-scroll's overflow:hidden, leaving only the
-       first card visible with no way to reach the rest. display:contents
-       removes that box from layout entirely while keeping its children
-       (the actual cards) as direct flex items of .testimonial-track, so
-       *that* wrap/gap is what actually lays them out in rows. */
-    .testimonial-set { display: contents; }
-    .testimonial-scroll { mask-image: none; -webkit-mask-image: none; }
-  }
-
-  /* on mobile, moving text is hard to read regardless of font size — freeze
-     the auto-scroll (paired with the matching skip in initTestimonialMarquee
-     below) and fall back to the same static wrapped layout already built
-     for prefers-reduced-motion, so testimonials become an ordinary card
-     list you scroll down through with the rest of the page. Desktop keeps
-     the auto-scrolling marquee untouched. The card itself widens from the
-     280px marquee width to near-full-screen so the larger mobile text
-     (round-4 pass above) doesn't fragment into 2–3-word lines. Same
-     display:contents fix on .testimonial-set as the reduced-motion block
-     above, for the same reason. */
-  @media (max-width: 767px) {
-    .testimonial-track { direction: rtl; flex-wrap: wrap; width: 100%; justify-content: center; gap: 16px; }
-    .testimonial-set { display: contents; }
-    .testimonial-scroll { mask-image: none; -webkit-mask-image: none; }
-    .testimonial-card { width: min(92vw, 420px); margin-inline-end: 0; }
-    .testimonial-shot, .screenshot-placeholder { margin-inline-end: 0; }
+  /* mobile (and prefers-reduced-motion) fallback: plain top-to-bottom block
+     stacking, not flexbox. An earlier attempt here used flex-wrap on
+     .testimonial-track/.testimonial-set with display:contents to drop the
+     wrapper — correct by spec, but display:contents combined with flexbox
+     gap is a known trouble spot on older/embedded mobile WebViews, and it
+     showed up as broken on a real device (one card visible, huge gaps,
+     "repeating" clones). Switching every level (scroll → track → set →
+     card) to plain block elements sidesteps that whole class of bug: block
+     boxes always take the full available width and simply stack, with no
+     flex/grid intrinsic-sizing edge cases at all. */
+  @media (prefers-reduced-motion: reduce), (max-width: 767px) {
+    .testimonial-scroll { overflow: visible; mask-image: none; -webkit-mask-image: none; }
+    .testimonial-track, .testimonial-set { display: block; width: auto; }
+    .testimonial-card { width: auto; margin: 0 0 16px 0; }
+    .testimonial-shot, .screenshot-placeholder { width: 100%; margin: 0 0 16px 0; }
   }
 
   /* sendmsg / creaditor form embed — reskinned to read as part of the
@@ -460,14 +445,14 @@
      !important is needed because these override Tailwind's own
      dynamically-injected utility classes. */
   @media (max-width: 767px) {
-    body { font-size: 1.375rem; line-height: 1.6; font-weight: 500; }
+    body { font-size: 1.375rem !important; line-height: 1.6 !important; font-weight: 500 !important; }
 
     .text-ink\/40, .text-ink\/45, .text-ink\/50 { color: rgba(10,11,46,.68) !important; }
 
-    .text-xs { font-size: 1.375rem !important; line-height: 1.45 !important; font-weight: 500; }
+    .text-xs { font-size: 1.375rem !important; line-height: 1.45 !important; font-weight: 500 !important; }
     .text-\[11px\] { font-size: 1.25rem !important; }
     .text-sm { font-size: 1.5rem !important; line-height: 1.5 !important; }
-    .text-2xl { font-size: 1.75rem !important; }
+    .text-2xl { font-size: 1.625rem !important; }
 
     /* letter-spacing this wide on small Hebrew glyphs hurts word
        recognition more than it helps the "label" look — tighten on mobile
