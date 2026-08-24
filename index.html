@@ -283,6 +283,22 @@
     .testimonial-scroll { mask-image: none; -webkit-mask-image: none; }
   }
 
+  /* on mobile, moving text is hard to read regardless of font size — freeze
+     the auto-scroll (paired with the matching skip in initTestimonialMarquee
+     below) and fall back to the same static wrapped layout already built
+     for prefers-reduced-motion, so testimonials become an ordinary card
+     list you scroll down through with the rest of the page. Desktop keeps
+     the auto-scrolling marquee untouched. The card itself widens from the
+     280px marquee width to near-full-screen so the larger mobile text
+     (round-4 pass above) doesn't fragment into 2–3-word lines. */
+  @media (max-width: 767px) {
+    .testimonial-track { direction: rtl; flex-wrap: wrap; width: 100%; justify-content: center; gap: 16px; }
+    .testimonial-set { flex-wrap: wrap; justify-content: center; gap: 16px; }
+    .testimonial-scroll { mask-image: none; -webkit-mask-image: none; }
+    .testimonial-card { width: min(92vw, 420px); margin-inline-end: 0; }
+    .testimonial-shot, .screenshot-placeholder { margin-inline-end: 0; }
+  }
+
   /* sendmsg / creaditor form embed — reskinned to read as part of the
      page rather than a foreign widget. The card chrome around it is our
      own DOM so it's guaranteed to render; the rules targeting .fc-form's
@@ -415,28 +431,29 @@
     transform: translateY(-1px);
   }
 
-  /* mobile readability pass — round 3. Rounds 1–2 stopped right at the
-     "minimum" figures usability research cites (16px body / 14px→16px for
-     text-sm) — confirmed live on the deployed page, but still read as too
-     small on an actual phone. This round deliberately goes well past the
-     bare minimum into the comfortable range research also calls out for
-     45+ readers (18px+), and also raises the page's own un-classed body
-     copy (most real paragraphs here — founder bios, origin story, pain
-     section — carry no Tailwind size class at all, so they inherit
-     directly from `body`, not from `.text-base`). rem throughout (not px),
-     and `html`/root size is deliberately left alone, so Tailwind's
-     rem-based spacing/padding/container-width scale is untouched — only
-     text grows, nothing shifts position. Scoped to mobile only so desktop
-     stays pixel-identical. !important is needed because these override
+  /* mobile readability pass — round 4. Rounds 1–3 were built off generic
+     accessibility-research minimums (16–20px) and still read as small in
+     practice. This round is calibrated against a reference landing page the
+     client is targeting (its actual quote/body copy runs 22–24px, measured
+     directly from its source, not guessed) — so the numbers below sit a
+     good deal above the bare "minimum recommended" figures on purpose.
+     text-2xl is bumped too so section headings (h2) stay clearly bigger
+     than the now-24px sub-headings (roadmap titles, card titles) instead of
+     landing on the exact same size. rem throughout (not px), and
+     `html`/root size is deliberately left alone, so Tailwind's rem-based
+     spacing/padding/container-width scale is untouched — only text grows,
+     nothing shifts position. Scoped to mobile only so desktop stays
+     pixel-identical. !important is needed because these override
      Tailwind's own dynamically-injected utility classes. */
   @media (max-width: 767px) {
-    body { font-size: 1.125rem; line-height: 1.7; }
+    body { font-size: 1.375rem; line-height: 1.6; }
 
     .text-ink\/40, .text-ink\/45, .text-ink\/50 { color: rgba(10,11,46,.68) !important; }
 
-    .text-xs { font-size: 1.125rem !important; line-height: 1.5 !important; }
-    .text-\[11px\] { font-size: 1.0625rem !important; }
-    .text-sm { font-size: 1.25rem !important; line-height: 1.5 !important; }
+    .text-xs { font-size: 1.375rem !important; line-height: 1.45 !important; }
+    .text-\[11px\] { font-size: 1.25rem !important; }
+    .text-sm { font-size: 1.5rem !important; line-height: 1.5 !important; }
+    .text-2xl { font-size: 1.75rem !important; }
 
     /* letter-spacing this wide on small Hebrew glyphs hurts word
        recognition more than it helps the "label" look — tighten on mobile
@@ -1467,6 +1484,7 @@
     if (!original) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(max-width: 767px)').matches) return;
 
     const images = Array.from(original.querySelectorAll('img'));
     const imagesReady = Promise.all(images.map((img) => {
