@@ -277,21 +277,67 @@
     border: 1px solid #E7E1D4;
     box-shadow: 0 10px 24px -14px rgba(10,11,46,.35);
   }
-  /* mobile (and prefers-reduced-motion) fallback: plain top-to-bottom block
-     stacking, not flexbox. An earlier attempt here used flex-wrap on
-     .testimonial-track/.testimonial-set with display:contents to drop the
-     wrapper — correct by spec, but display:contents combined with flexbox
-     gap is a known trouble spot on older/embedded mobile WebViews, and it
-     showed up as broken on a real device (one card visible, huge gaps,
-     "repeating" clones). Switching every level (scroll → track → set →
-     card) to plain block elements sidesteps that whole class of bug: block
-     boxes always take the full available width and simply stack, with no
-     flex/grid intrinsic-sizing edge cases at all. */
+  /* mobile (and prefers-reduced-motion) fallback: two earlier attempts at
+     an auto-stopped layout both broke in practice (display:contents+flex
+     wrap clipped everything to one card; plain block-stacking left the
+     quotes row entirely blank on a real device — likely the .card/flex
+     content inside each testimonial-card interacting badly with the forced
+     block context). Simplest fix: don't touch the row's own flex layout at
+     all. It's already a plain single-line flex row in the base rules above
+     (.testimonial-track/.testimonial-set, untouched here) — the JS marquee
+     is what turned it into an *infinite* auto-scrolling row by cloning
+     it and animating transform. With that JS skipped (see the matchMedia
+     check in initTestimonialMarquee below), all that's left is a normal
+     one-line-of-cards row wider than the screen — exactly what native
+     horizontal scrolling is for. So: swap overflow:hidden for
+     overflow-x:auto (real, native, un-buggable finger-swipe/scrollbar
+     scrolling) and add simple prev/next arrow buttons that call
+     scrollBy() — see .testimonial-arrow below and initTestimonialArrows in
+     the script. */
   @media (prefers-reduced-motion: reduce), (max-width: 767px) {
-    .testimonial-scroll { overflow: visible; mask-image: none; -webkit-mask-image: none; }
-    .testimonial-track, .testimonial-set { display: block; width: auto; }
-    .testimonial-card { width: auto; margin: 0 0 16px 0; }
-    .testimonial-shot, .screenshot-placeholder { width: 100%; margin: 0 0 16px 0; }
+    .testimonial-scroll { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+    /* wider than the 280px marquee card (room for the bumped mobile text
+       sizes to breathe) but short of full-screen, so the next card peeks
+       in at the edge as a visual hint that the row keeps going. */
+    .testimonial-card { width: 78vw; }
+  }
+  .testimonial-nav-wrap { position: relative; }
+  /* gradient-ring button — same "portal" construction as .portal-circle
+     above (padding:2px gradient background behind a solid inner circle),
+     so the nav arrows read as part of this brand's own visual system
+     instead of a generic UI-kit control. */
+  .testimonial-arrow {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    padding: 2px;
+    border-radius: 9999px;
+    border: none;
+    background: linear-gradient(170deg, #7457FD 0%, #FF5B97 45%, #FFA158 75%, #60E0E2 100%);
+    box-shadow: 0 10px 24px -10px rgba(10,11,46,.45);
+    z-index: 2;
+    cursor: pointer;
+    transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+  }
+  .testimonial-arrow:active { transform: translateY(-50%) scale(.92); }
+  .testimonial-arrow-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    background: #FBFAF6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0A0B2E;
+  }
+  .testimonial-arrow svg { width: 20px; height: 20px; }
+  .testimonial-arrow-prev { left: 4px; }
+  .testimonial-arrow-next { right: 4px; }
+  @media (prefers-reduced-motion: reduce), (max-width: 767px) {
+    .testimonial-arrow { display: flex; }
   }
 
   /* sendmsg / creaditor form embed — reskinned to read as part of the
@@ -1037,6 +1083,9 @@
          .testimonial-set to fill the row, so no other markup needs to change. -->
     <div class="mb-12 reveal">
       <p class="eyebrow text-[11px] text-ink/40 mb-4">הודעות שקיבלנו</p>
+      <div class="testimonial-nav-wrap">
+      <button type="button" class="testimonial-arrow testimonial-arrow-prev" data-target="shotsMarquee" aria-label="הקודם"><span class="testimonial-arrow-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span></button>
+      <button type="button" class="testimonial-arrow testimonial-arrow-next" data-target="shotsMarquee" aria-label="הבא"><span class="testimonial-arrow-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
       <div class="testimonial-scroll" id="shotsMarquee">
         <div class="testimonial-track" id="shotsMarqueeTrack" dir="ltr">
           <div class="testimonial-set">
@@ -1054,11 +1103,15 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
 
     <!-- written quotes, verbatim from workshop feedback -->
     <div class="reveal" style="transition-delay:80ms">
       <p class="eyebrow text-[11px] text-ink/40 mb-4">ציטוטים נבחרים מתוך משובי סדנאות</p>
+      <div class="testimonial-nav-wrap">
+      <button type="button" class="testimonial-arrow testimonial-arrow-prev" data-target="quotesMarquee" aria-label="הקודם"><span class="testimonial-arrow-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span></button>
+      <button type="button" class="testimonial-arrow testimonial-arrow-next" data-target="quotesMarquee" aria-label="הבא"><span class="testimonial-arrow-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
       <div class="testimonial-scroll" id="quotesMarquee">
         <div class="testimonial-track" id="quotesMarqueeTrack" dir="ltr">
           <div class="testimonial-set">
@@ -1279,6 +1332,7 @@
 
           </div>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -1544,6 +1598,21 @@
 
   initTestimonialMarquee('shotsMarquee', 'shotsMarqueeTrack', 32);
   initTestimonialMarquee('quotesMarquee', 'quotesMarqueeTrack', 26);
+
+  // manual prev/next arrows for the testimonial rows (mobile + reduced-motion,
+  // see .testimonial-arrow in the CSS). Steps by one card's own width so a
+  // tap moves roughly one item at a time regardless of screen size, and
+  // falls back to 80% of the visible row width if a card can't be measured.
+  document.querySelectorAll('.testimonial-arrow').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById(btn.getAttribute('data-target'));
+      if (!el) return;
+      const item = el.querySelector('.testimonial-card, .testimonial-shot');
+      const step = item ? item.getBoundingClientRect().width + 18 : el.clientWidth * 0.8;
+      const dir = btn.classList.contains('testimonial-arrow-next') ? 1 : -1;
+      el.scrollBy({ left: dir * step, behavior: 'smooth' });
+    });
+  });
 </script>
 
 </body>
